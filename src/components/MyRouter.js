@@ -11,7 +11,6 @@ import {
 import Passport from './Passport';
 let passport = new Passport();
 
-require('style/base.css');
 require('style/index.css');
 
 export default class MyRouter extends React.Component {

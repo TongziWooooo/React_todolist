@@ -73,7 +73,7 @@ export default class Right extends React.Component {
         let task = this.props.displayTask;
 
         return(
-            <div className="col-md-4">
+            <div className="col-md-4" style={{"height": "100%"}}>
                 <div className="desc-title">
                     <div contentEditable="true" style={{"padding-top": "20px", "padding-left": "20px"}}><h3>
                         <strong>{task['title']}</strong></h3>

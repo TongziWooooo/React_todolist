@@ -7,7 +7,6 @@ import 'babel-polyfill';
 import ItemsConstructor from "./ItemsConstructor";
 
 // 引入样式
-require('style/base.css');
 require('style/index.css');
 
 var superagent = require('superagent');
@@ -244,6 +243,7 @@ export default class Middle extends React.Component {
         return(
             <Item
                 {...{
+                    todoTags: this.props.tags,
                     todo:task,
                     onChangeDisplay: this.onChangeDisplay,
                     onDestroy: this.onDelete,
@@ -343,7 +343,7 @@ export default class Middle extends React.Component {
         );
 
         return(
-            <div>
+            <div style={{'height': '100%'}}>
                 <div className="col-md-6" style={{'height': '100%', 'border-right':'1px solid #d3d3d3', 'border-left':'1px solid #d3d3d3'}}>
                     <header className="form-inline tool-bar">
                         <div className="form-group project-name" id="project-name-bar">

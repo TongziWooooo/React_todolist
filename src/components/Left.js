@@ -178,7 +178,7 @@ export default class Left extends React.Component {
         );
 
         return (
-            <div className="container-fluid" id="root" style={{"height": "100%"}}>
+            <div style={{"height": "100%"}}>
                 <div className="row" style={{"height": "100%"}}>
                     <div className="col-md-2 sidebar" style={{"height": "100%", "background": "rgba(f5,f5,f5,0.9)"}}>
                         <div className="tool-bar">
