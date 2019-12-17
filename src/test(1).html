@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		html,body{
+			width: 100%;
+			height: 100%;
+		}
+
+		.divider {
+			border-bottom: 1px solid #d3d3d3;
+		}
+
+		.left-menu {
+			height: 100%;
+			width: 30%;
+			border: 1px solid blue;
+		}
+		.mid-menu {
+			height: 100%;
+			width: 30%;
+			border: 1px solid purple;
+		}
+		.right-menu {
+			height: 100%;
+			width: 40%;
+			border: 1px solid green;
+		}
+
+		.nav-sidebar {
+			/*margin-right: -20px;  20px padding + 1px border */
+		}
+		.nav-sidebar > li > a {
+			border-radius: 5px;
+			padding-right: 20px;
+			padding-left: 20px;
+		}
+		.nav-sidebar > .active > a,
+		.nav-sidebar > .active > a:hover,
+		.nav-sidebar > .active > a:focus {
+			color: black;
+			opacity: 0.8;
+			background-color: #b0c4de;
+		}
+
+		.tool-bar {
+			height: 60px;
+			width: 100%;
+		}
+
+		.action-btn {
+			padding: 10px;
+			margin: 10px;
+		}
+
+		.form-control {
+			position: relative;
+			height: 50px;
+			border: none;
+			background-color: #f5f5f5;
+			padding: 10px;
+			font-size: 16px;
+
+		}
+
+		.show-more {
+			font-size: 12px;
+			margin-top: 20px;
+			color: gray;
+		}
+
+		.section-header-opened {
+			margin: 10px;
+		}
+
+		.task {
+			height: 30px;
+			margin: 2px;
+			padding: 5px;
+		}
+
+		.desc-text {
+			font-size: 16px;
+			line-height: 24px;
+			height: 100%;
+			padding-top: 10px;
+			padding-left: 20px;
+			padding-right: 20px;
+			overflow-y: auto;
+		}
+
+	</style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<div class="container-fluid" id="root" style="height: 100%;">
+	<div class="row" style="height: 100%;">
+		<div class="col-md-2 sidebar" style="height: 100%; background: rgba(f5,f5,f5,0.9);">
+			<div class="tool-bar">
+				<label><h5>🍎  我是用户名</h3></label>
+			</div>
+			<div class="project-view">
+				<section>
+					<div class="smart-view">
+						<ul class="nav nav-sidebar">
+							<li class="active"><a href="#"><strong>今日</strong><span class="sr-only">(current)</span></a></li>
+							<li><a href="#">最近7天</a></li>
+							<li><a href="#">收集箱</a></li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<ul class="nav nav-sidebar">
+						<li><a href="#">已完成</a></li>
+						<li><a href="#">垃圾桶</a></li>
+					</ul>
+				</section>
+				<div class="divider"></div>
+				<section>
+					<div style="border-bottom: 1px solid #a9a9a9; margin: 20px 40px 10px 40px;"><h5 style="text-align: center; color: #696969;">清单</h5></div>
+					<ul class="nav nav-sidebar">
+						<li><a href="#">清单1</a></li>
+						<li><a href="#">清单2</a></li>
+					</ul>
+				</section>
+			</div>
+		</div>
+		<div class="col-md-6" style="height: 100%; border-right:1px solid #d3d3d3; border-left:1px solid #d3d3d3;">
+			<header class="form-inline tool-bar">
+				<div class="form-group project-name" id="project-name-bar">
+					<h3 contenteditable="true">这是一个标题</h3>
+				</div>
+				<div class="form-group action-bar" style="float: right;">
+					<div class="action-btn">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="sort-by-list" width="20" height="20">
+							<path id="sort-by-list_形状结合" class="st0" d="M9.8,6.5h9.5c0.4,0,0.8,0.3,0.8,0.8S19.7,8,19.2,8H9.8C9.3,8,9,7.7,9,7.2S9.3,6.5,9.8,6.5z   M9.8,11h9.5c0.4,0,0.8,0.3,0.8,0.8s-0.3,0.8-0.8,0.8H9.8c-0.4,0-0.8-0.3-0.8-0.8S9.3,11,9.8,11z M9.8,15.5h9.5  c0.4,0,0.8,0.3,0.8,0.8S19.7,17,19.2,17H9.8C9.3,17,9,16.7,9,16.2S9.3,15.5,9.8,15.5z M5.2,17.4V5c0-0.4,0.3-0.8,0.8-0.8  S6.8,4.6,6.8,5v14c0,0.6-0.8,1-1.2,0.6l-3-2.6c-0.3-0.3-0.3-0.7-0.1-1.1s0.7-0.3,1.1-0.1L5.2,17.4z"></path></svg>
+					</div>
+				</div>
+			</header>
+			<div class="add-task" style="height: 70px;">
+				<div>
+					<label for="add-task" class="sr-only"></label>
+					<input id="add-task" type="text" class="form-control" placeholder="添加任务至所有，回车即可保存"></input>
+				</div>
+			</div>
+			<div class="task-list-scroll" style="height:100%;">
+				<div class="task-list-content">
+					<section class="section-opened">
+						<div class="section-header-opened">
+							<div>
+								<a data-toggle="collapse" data-parent="#accordion" href="#opened"><!--这个href要和下面的列表id相同 https://www.runoob.com/bootstrap/bootstrap-collapse-plugin.html-->
+									<span class="glyphicon glyphicon-triangle-bottom"></span>
+									已过期
+								</a>
+							</div>
+						</div>
+						<ul id="opened" class="collapse in">
+							<li class="task" >
+								<div contenteditable="true">原来的搬过来就行了</div>
+							</li>
+							<li class="task">
+								<div contenteditable="true">嘿嘿嘿我好聪明</div>
+							</li>
+						</ul>
+						<p class="show-more">查看更多</p>
+					</section>
+					<section class="section">
+						<div class="section-header">
+							<div>
+								<a data-toggle="collapse" data-parent="#accordion" href="#opened??"><!--这个href要和下面的列表id相同 https://www.runoob.com/bootstrap/bootstrap-collapse-plugin.html-->
+									<span class="glyphicon glyphicon-triangle-right"></span>
+									接下来7天
+									<span class="badge" style="float: right;">5</span>
+								</a>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4" style="height: 100%;">
+			<div class="desc-title">
+				<div contenteditable="true" style="padding-top: 20px; padding-left: 20px;"><h3><strong>这是一个任务标题</strong></h3></div>
+			</div>
+			<div class="desc-content" style="height: 100%;">
+				<div contenteditable="true"><div class="text-justify desc-text">如果我们选择了最能为人类福利而劳动的职业，那么，重担就不能把我们压倒，因为这是为大家而献身；那时我们所感到的就不是可怜的、有限的、自私的乐趣，我们的幸福将属于千百万人，我们的事业将默默地，但是永恒发挥作用地存在下去，而面对我们的骨灰，高尚的人们将洒下热泪。
+					较高级复杂的劳动，是这样一种劳动力的表现，这种劳动力比较普通的劳动力需要较高的教育费用，它的生产需要花费较多的劳动时间。因此，具有较高的价值。
+					你能否对你的朋友守信不渝，永远做一个无愧于他的人，这就是你的灵魂、性格、心理以至于道德的最好的考验。
+					友谊之舟在生活的海洋中行驶是不可能一帆风顺的，有时会碰到乌云和风暴，在这种情况下，友谊应该受到这种或那种考验，在这些乌云和风暴后，那么友谊就会更加巩固，真正的友谊在任何情况下都会放射出新的光芒。
+					人的生活离不开友谊，但要得到真正的友谊才是不容易；友谊总需要忠诚去播种，用热情去灌溉，用原则去培养，用谅解去护理。
+					如果斗争是在极顺利的成功机会的条件下才着手进行，那么创造世界历史未免就太容易了。</div></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

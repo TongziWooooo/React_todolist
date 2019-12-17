@@ -1,12 +1,13 @@
 
+import React from 'react';
 
-//接收的数据的数据验证
-let propTypes = {
-    todo:PT.object,   //因为我在webpack.config内已经申明好了pt，所以可以直接用PT
-    onDestroy:PT.func,
-    onToggle:PT.func,
-    itemEditDone:PT.func
-}
+// //接收的数据的数据验证
+// let propTypes = {
+//     todo:PT.object,   //因为我在webpack.config内已经申明好了pt，所以可以直接用PT
+//     onDestroy:PT.func,
+//     onToggle:PT.func,
+//     itemEditDone:PT.func
+// }
 
 export default class Item extends React.Component {
 
@@ -18,7 +19,7 @@ export default class Item extends React.Component {
         this.state = {
             inEdit:false,
             val:''
-        }
+        };
         //绑定this
         this.onEdit = this.onEdit.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -80,7 +81,7 @@ export default class Item extends React.Component {
         
         
         //取出todo
-        let {onDestroy,todo,onToggle} = this.props;
+        let {onDestroy,todo,onToggle,onChangeDisplay} = this.props;
 
         let {inEdit,val} = this.state;
 
@@ -96,38 +97,93 @@ export default class Item extends React.Component {
             itemClassName += 'editing';
         }
 
-        return (
-            <li className={itemClassName} >
-                <div className="view">
-                    <input 
-                        type="checkbox" 
-                        className="toggle"
-                        checked={todo.hasCompleted}
-                        onChange={()=>{onToggle(todo)}}
-                    />
-                    <label
-                        onDoubleClick = {onEdit}
-                    >
-                        {todo.value}
-                    </label>
-                    <button className="destroy"
-                        onClick = { ev=>{onDestroy(todo)} }
-                    ></button>
-                </div>
-                <input 
-                    type="text" 
-                    className="edit" 
-                    value={val}
-                    onBlur={onBlur}
-                    onKeyDown={onEnter}
-                    onChange={inputChange}
-                    ref="editInput"
-                />
+        // return (
+        //     <li className={itemClassName} >
+        //         <div className="view">
+        //             <input
+        //                 type="checkbox"
+        //                 className="toggle"
+        //                 checked={todo.hasCompleted}
+        //                 onChange={()=>{onToggle(todo)}}
+        //             />
+        //             <label
+        //                 onDoubleClick = {onEdit}
+        //             >
+        //                 {todo.value}
+        //             </label>
+        //             <button className="destroy"
+        //                 onClick = { ev=>{onDestroy(todo)} }
+        //             ></button>
+        //         </div>
+        //         <input
+        //             type="text"
+        //             className="edit"
+        //             value={val}
+        //             onBlur={onBlur}
+        //             onKeyDown={onEnter}
+        //             onChange={inputChange}
+        //             ref="editInput"
+        //         />
+        //     </li>
+        // );
+        return(
+            <li className="task">
+                <div className="glyphicon glyphicon-unchecked" style={{"padding": "5px", "display": "inline-block"}}/>
+                <div style={{"display": "inline-block"}}>{todo.title}</div>
+                <span style={{"float": "right", "display": "inline-block"}}>
+					<span className="action-btn btn-group" style={{"margin": "0", "padding": "0"}}>
+                      <button type="button" className="btn btn-default dropdown-toggle btn-xs task-project-name"
+                              style={{"border": "none"}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {todo.tags}<span className="caret" style={{"margin-left": "3px"}}/>
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li className="active"><a href="#"><span
+                            className="action-btn-inactive-icon glyphicon glyphicon-tag"/><span>快点</span></a></li>
+                        <li><a href="#"><span
+                            className="action-btn-inactive-icon glyphicon glyphicon-tag"/><span>做作业</span></a></li>
+                        <li><a href="#"><span
+                            className="action-btn-inactive-icon glyphicon glyphicon-tag"/><span>加油</span></a></li>
+                      </ul>
+					</span>
+					<div className="ddl-time">12月20日</div>
+					<div className="btn-group">
+					  <button type="button" className="btn btn-default dropdown-toggle" style={{"border": "none"}}
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <span className="glyphicon glyphicon-option-horizontal"
+                              style={{"height": "20px", "width": "20px", "color": "#696969"}}/>
+					  </button>
+					  <ul className="dropdown-menu">
+					    <li style={{"padding": "11px"}}><p>到期日</p><span>
+						  <div className="input-group date" data-provide="datepicker"
+                               style={{"padding-left": "10px", "padding-right": "10px"}}>
+                            <input type="text" className="form-control" value="12-20-2019" style={{"border-radius": "10px"}}/>
+                          </div>
+						</span></li>
+						<li role="separator" className="divider"/>
+					    <li style={{"padding": "11px"}}><p>优先级</p>
+						<div className="btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
+                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                                  style={{"color": "#ff1493", "background-color": "white"}}/>
+                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                                  style={{"color": "#ff8c00", "background-color": "white"}}/>
+                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                                  style={{"color": "#4169e1", "background-color": "white"}}/>
+						  <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire active"
+                                  style={{"color": "grey", "background-color": "white"}}/>
+                        </div>
+						</li>
+						<li role="separator" className="divider"/>
+					    <li><a href="#"><span
+                            className="action-btn-inactive-icon glyphicon glyphicon-remove-circle"/><span>删除</span></a></li>
+					  </ul>
+					</div>
+				  </span>
             </li>
-        );
+                
+        )
     }
 }
 
 
 //绑定数据验证到Item上
-Item.propTypes = propTypes;
+// Item.propTypes = propTypes;
