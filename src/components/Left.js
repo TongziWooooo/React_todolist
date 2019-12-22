@@ -14,29 +14,8 @@ export default class Left extends React.Component {
         super(props);
 
         this.state = {
-            todoTags: ['testA', 'testB'],  //只要字段名
-            todosData: [
-                {
-                    'id':1,
-                    'title':'123',
-                    'content':'123',
-                    'state':CONSTANT.EXPIRED_NOT_DELETED,
-                    'priority':CONSTANT.P4,
-                    'tag':'testA',
-                    'doneTime':timeToDay('2019-12-17 16:28:45'),
-                    'ddlTime':timeToDay('2019-12-17 16:28:45')
-                },
-                {
-                    'id':2,
-                    'title':'234',
-                    'content':'123',
-                    'state':CONSTANT.ACTIVE_NOT_DELETED,
-                    'priority':CONSTANT.P3,
-                    'tag':'testB',
-                    'doneTime':timeToDay('2019-12-17 16:28:45'),
-                    'ddlTime':timeToDay('2019-12-17 16:28:45')
-                }
-            ],
+            todoTags: [],  //只要字段名
+            todosData: [],
             viewType: 'all',
             token: this.props.token
         };
@@ -46,22 +25,46 @@ export default class Left extends React.Component {
         this.getAllTask = this.getAllTask.bind(this);
         // this.addTodo = this.addTodo.bind(this);
         this.updatePage = this.updatePage.bind(this);
+        this.updateIllegal = this.updateIllegal.bind(this);
+        this.getLegalTasks = this.getLegalTasks.bind(this);
 
-        this.getAllTask(this.state.token);
         this.getAllTag(this.state.token);
+        // this.getAllTask(this.state.token);
+        this.getLegalTasks(this.state.token);
     }
 
     changeViewType(type){
+        this.getAllTask(this.state.token);
         this.setState({
             viewType: type
         });
+    }
+
+    async getLegalTasks(token) {
+        await this.updateIllegal(token);
+        await this.getAllTask(token);
+    }
+
+    async updateIllegal(token) {
+        try {
+            let res = await superagent
+                .get("http://aliyun.nihil.top:10999/api/task/update/state/expired?SecretKey=kdK4AnNlLm")
+                .set('token', token);
+
+            return res;
+        } catch (err) {
+            alert(err);
+            alert('任务列表拉取失败！');
+            return -1;
+        }
+
     }
 
     // TODO：获取标签及标签下的tasks
     getAllTag(token) {
         let that = this;
         superagent
-            .get('http://127.0.0.1:8080/api/task/tag/list?SecretKey=kdK4AnNlLm')
+            .get('http://aliyun.nihil.top:10999/api/task/tag/list?SecretKey=kdK4AnNlLm')
             .set('token', token)
             .end(function(err, res) {
                 if (err) {
@@ -81,35 +84,37 @@ export default class Left extends React.Component {
             });
     }
 
-    getAllTask(token) {
-        let that = this;
-        superagent
-            .get('http://127.0.0.1:8080/api/task/list?SecretKey=kdK4AnNlLm&rn=100')
-            .set('token', token)
-            .end(function(err, res) {
-                if (err) {
-                    alert('err');
-                } else {
-                    let json = JSON.parse(res.text);
+    async getAllTask(token) {
+        try {
+            let res = await superagent
+                .get('http://aliyun.nihil.top:10999/api/task/list?SecretKey=kdK4AnNlLm&rn=100')
+                .set('token', token);
 
-                    let items = json['data'];
-                    items = items.map(item=> {
-                        let todo = {};
-                        todo.id = item['id'];
-                        todo.title = item['title'];
-                        todo.content = item['content'];
-                        todo.state = item['state'];
-                        todo.tag = item['tag'];
-                        todo.priority = item['priority'];
-                        todo.doneTime = timeToDay(item['done_time']);
-                        todo.ddlTime = timeToDay(item['ddl_time']);
-                        return todo
-                    });
-                    that.setState({
-                        todosData: items
-                    });
-                }
+            let json = JSON.parse(res.text);
+
+            let items = json['data'];
+            items = items.map(item=> {
+                let todo = {};
+                todo.id = item['id'];
+                todo.title = item['title'];
+                todo.content = item['content'];
+                todo.state = item['state'];
+                todo.tag = item['tag'];
+                todo.priority = item['priority'];
+                todo.done_time = timeToDay(item['done_time']);
+                todo.ddl_time = timeToDay(item['ddl_time']);
+                return todo
             });
+
+            this.setState({
+                todosData: items
+            });
+            return 0;
+        } catch(err) {
+            alert(err);
+            alert('任务列表拉取失败！');
+            return -1;
+        }
     }
 
     // addTodo(task) {
@@ -120,8 +125,9 @@ export default class Left extends React.Component {
     //     })
     // }
 
-    updatePage() {
-        this.getAllTask(this.state.token);
+    async updatePage() {
+        await this.updateIllegal(this.state.token);
+        await this.getAllTask(this.state.token);
     }
 
     render() {
@@ -134,7 +140,7 @@ export default class Left extends React.Component {
                 tasks = state.todosData.filter(task=> {
                     let date = new Date();
                     let today = date.toLocaleDateString();
-                    return today === task['ddlTime'] &&
+                    return today === task['ddl_time'] &&
                         (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED)
                 });
                 break;
@@ -142,7 +148,7 @@ export default class Left extends React.Component {
                 tasks = state.todosData.filter(task=> {
                     let date = new Date();
                     let today = date.toLocaleDateString();
-                    return today === task['ddlTime'] &&
+                    return today === task['ddl_time'] &&
                         (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED)
                 });
                 break;
@@ -156,8 +162,16 @@ export default class Left extends React.Component {
                     return task['state'] === CONSTANT.ACTIVE_OR_EXPIRED_DELETED || task['state'] === CONSTANT.DONE_DELETED
                 });
                 break;
+            case 'all':
+                tasks = state.todosData.filter(task=> {
+                    return task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED
+                });
+                break;
             default:
-                tasks = state.todosData;
+                tasks = state.todosData.filter(task=> {
+                    return task['tag'] === state.viewType &&
+                        (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED)
+                })
         }
 
         // 标签
@@ -182,7 +196,7 @@ export default class Left extends React.Component {
                 <div className="row" style={{"height": "100%"}}>
                     <div className="col-md-2 sidebar" style={{"height": "100%", "background": "rgba(f5,f5,f5,0.9)"}}>
                         <div className="tool-bar">
-                            <label><h3>🍎 我是用户名</h3></label>
+                            <label><h3>{'🍎 ' + this.props.username}</h3></label>
                         </div>
                         <div className="project-view">
                             <section>

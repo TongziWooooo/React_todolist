@@ -6,6 +6,7 @@ export default class Passport {
     constructor() {
         this.isLogin = false;
         this.token = '';
+        this.username = '';
     }
 
     login(username, password, callback){
@@ -14,7 +15,7 @@ export default class Passport {
         }
         let that = this;
         superagent
-            .post('http://127.0.0.1:8080/login?SecretKey=kdK4AnNlLm')
+            .post('http://aliyun.nihil.top:10999/login?SecretKey=kdK4AnNlLm')
             .send({
                 "username":username,
                 "password":password
@@ -28,6 +29,7 @@ export default class Passport {
                     let code = json['error_code'];
                     if (code === 0){
                         that.isLogin = true;
+                        that.username = username;
                         that.token = json['data']['token'];
                         alert('登陆成功！');
                         callback();
@@ -46,7 +48,7 @@ export default class Passport {
         }
         let that = this;
         superagent
-            .post('http://127.0.0.1:8080/register?SecretKey=kdK4AnNlLm')
+            .post('http://aliyun.nihil.top:10999/register?SecretKey=kdK4AnNlLm')
             .send({
                 "username":username,
                 "password":password

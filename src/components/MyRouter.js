@@ -23,6 +23,7 @@ export default class MyRouter extends React.Component {
                         return (
                             <Left
                                 {...{
+                                    username: passport.username,
                                     token: passport.token
                                 }}
                             />

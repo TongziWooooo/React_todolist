@@ -43,7 +43,7 @@ export default class App extends React.Component {
     login(username, password){
         let changePage = this.changePage;
         superagent
-            .post('http://127.0.0.1:8080/login?SecretKey=kdK4AnNlLm')
+            .post('http://aliyun.nihil.top:10999/login?SecretKey=kdK4AnNlLm')
             .send({
                     "username":username,
                     "password":password

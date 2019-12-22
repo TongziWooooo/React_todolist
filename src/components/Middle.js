@@ -36,26 +36,38 @@ export default class Middle extends React.Component {
 
         //给所有事件绑定this
         this.handleKeyDownPost = this.handleKeyDownPost.bind(this);
+        this.onChangePriority = this.onChangePriority.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.inputChange = this.inputChange.bind(this);
-        this.onDone = this.onDone.bind(this);
+        this.onToggle = this.onToggle.bind(this);
         this.itemEditDone = this.itemEditDone.bind(this);
         this.onChangeDisplay = this.onChangeDisplay.bind(this);
         this.changeSort = this.changeSort.bind(this);
+        this.setExpired = this.setExpired.bind(this);
+        this.onChangeTag = this.onChangeTag.bind(this);
+
+        // this.props.tasks.forEach(task=> {
+        //     let date = new Date();
+        //     let today = date.toLocaleDateString();
+        //     alert(task['title'] + ' ' + task['ddl_time'] + ' ' + today);
+        //     if (task['ddl_time'] < today) {
+        //         this.setExpired(task);
+        //     }
+        // })
     }
 
     async addTask(token, title, content = 'NULL', state = CONSTANT.ACTIVE_NOT_DELETED, priority = CONSTANT.P1) {
         try {
             let res = await superagent
-                .post('http://127.0.0.1:8080/api/task/add?SecretKey=kdK4AnNlLm')
+                .post('http://aliyun.nihil.top:10999/api/task/add?SecretKey=kdK4AnNlLm')
                 .set('token', token)
                 .send({
                     'title': title,
                     "content": content,
                     "state": state,
                     "priority": priority,
-                    'tag':'default'
-                    // 'ddl_time':'0000-00-00 00:00:00'
+                    'tag':'default',
+                    'ddl_time':'2020-02-02 00:00:00'
                 });
             let json = JSON.parse(res.text);
             return json['data']['id'];
@@ -90,8 +102,8 @@ export default class Middle extends React.Component {
         task.content = 'NULL';
         task.state = CONSTANT.ACTIVE_NOT_DELETED;
         task.priority = CONSTANT.P1;
-        task.doneTime = '0000-00-00 00:00:00';
-        task.ddlTime = '0000-00-00 00:00:00';
+        task.done_time = '0000-00-00 00:00:00';
+        task.ddl_time = '2020-02-02 00:00:00';
 
         this.setState({
             inputVal: '',
@@ -106,9 +118,10 @@ export default class Middle extends React.Component {
     async modifyTask(token, id, title, content, state, priority, tag, ddl_time) {
         try {
             let res = await superagent
-                .post('http://127.0.0.1:8080/api/task/modify?SecretKey=kdK4AnNlLm')
+                .post('http://aliyun.nihil.top:10999/api/task/modify?SecretKey=kdK4AnNlLm')
                 .set('token', token)
                 .send({
+                    'id': id,
                     'title': title,
                     "content": content,
                     "state": state,
@@ -118,15 +131,16 @@ export default class Middle extends React.Component {
                 });
             return res;
         } catch(err) {
+            alert(err);
             alert('修改失败！');
             return -1;
         }
     }
 
-    async onDelete(task) {
+    async setExpired(task) {
         let {token} = this.state;
 
-        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], CONSTANT.ACTIVE_OR_EXPIRED_DELETED,
+        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], CONSTANT.EXPIRED_NOT_DELETED,
             task['priority'], task['tag'], task['ddl_time']);
 
         if (res) {
@@ -135,10 +149,60 @@ export default class Middle extends React.Component {
         }
     }
 
-    async onDone(task) {
+    async onDelete(task) {
         let {token} = this.state;
 
-        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], CONSTANT.DONE_NOT_DELETED,
+        let state;
+
+        switch (task['state']) {
+            case CONSTANT.ACTIVE_NOT_DELETED:
+                state = CONSTANT.ACTIVE_OR_EXPIRED_DELETED;
+                break;
+            case CONSTANT.DONE_NOT_DELETED:
+                state = CONSTANT.DONE_DELETED;
+                break;
+            case CONSTANT.EXPIRED_NOT_DELETED:
+                state = CONSTANT.ACTIVE_OR_EXPIRED_DELETED;
+                break;
+            case CONSTANT.ACTIVE_OR_EXPIRED_DELETED:
+                state = CONSTANT.ACTIVE_NOT_DELETED;
+                break;
+            case CONSTANT.DONE_DELETED:
+                state = CONSTANT.DONE_NOT_DELETED;
+                break;
+            default:
+                state = task['state'];
+        }
+
+        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], state,
+            task['priority'], task['tag'], task['ddl_time']);
+
+        if (res) {
+            let {updatePage} = this.props;
+            updatePage();
+        }
+    }
+
+    async onToggle(task) {
+        let {token} = this.state;
+
+        let state;
+
+        switch (task['state']) {
+            case CONSTANT.ACTIVE_NOT_DELETED:
+                state = CONSTANT.DONE_NOT_DELETED;
+                break;
+            case CONSTANT.DONE_NOT_DELETED:
+                state = CONSTANT.ACTIVE_NOT_DELETED;
+                break;
+            case CONSTANT.EXPIRED_NOT_DELETED:
+                state = CONSTANT.DONE_NOT_DELETED;
+                break;
+            default:
+                state = task['state'];
+        }
+
+        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], state,
             task['priority'], task['tag'], task['ddl_time']);
 
         if (res) {
@@ -246,9 +310,11 @@ export default class Middle extends React.Component {
                     todoTags: this.props.tags,
                     todo:task,
                     onChangeDisplay: this.onChangeDisplay,
-                    onDestroy: this.onDelete,
-                    onToggle: this.onDone,
-                    itemEditDone: this.itemEditDone
+                    onDelete: this.onDelete,
+                    onToggle: this.onToggle,
+                    itemEditDone: this.itemEditDone,
+                    onChangePriority: this.onChangePriority,
+                    onChangeTag: this.onChangeTag
                 }}
             />
         )
@@ -262,14 +328,14 @@ export default class Middle extends React.Component {
         let itemBox = null;
         switch(state.sortType) {
             case 'tag':
-                itemBox = state.tags.map(tag=> {
+                itemBox = this.props.tags.map(tag=> {
                     let key = tag;
-                    let value = tasks.map(task=> {
-                        if (task['tag'] === tag) {
-                            return (
-                                this.makeItem(task)
-                            )
-                        }
+                    let value = tasks.filter(task=>{
+                        return task['tag'] === tag
+                    }).map(task=> {
+                        return (
+                            this.makeItem(task)
+                        )
                     });
                     return {
                         key: key,
@@ -282,24 +348,48 @@ export default class Middle extends React.Component {
                     {
                         key:'高',
                         value:(
-                            tasks.map(task=> {
-                                if (task['priority'] === CONSTANT.P4) {
-                                    return (
-                                        this.makeItem(task)
-                                    )
-                                }
+                            tasks.filter(task=> {
+                                return task['priority'] === CONSTANT.P4
+                            }).map(task=> {
+                                return (
+                                    this.makeItem(task)
+                                )
                             })
                         )
                     },
                     {
                         key:'中',
                         value:(
-                            tasks.map(task=> {
-                                if (task['priority'] === CONSTANT.P3) {
-                                    return (
-                                        this.makeItem(task)
-                                    )
-                                }
+                            tasks.filter(task=> {
+                                return task['priority'] === CONSTANT.P3
+                            }).map(task=> {
+                                return (
+                                    this.makeItem(task)
+                                )
+                            })
+                        )
+                    },
+                    {
+                        key:'低',
+                        value:(
+                            tasks.filter(task=> {
+                                return task['priority'] === CONSTANT.P2
+                            }).map(task=> {
+                                return (
+                                    this.makeItem(task)
+                                )
+                            })
+                        )
+                    },
+                    {
+                        key:'无',
+                        value:(
+                            tasks.filter(task=> {
+                                return task['priority'] === CONSTANT.P1
+                            }).map(task=> {
+                                return (
+                                    this.makeItem(task)
+                                )
                             })
                         )
                     }
@@ -310,24 +400,24 @@ export default class Middle extends React.Component {
                     {
                         key:'已过期',
                         value:(
-                            tasks.map(task=> {
-                                if (task['state'] === CONSTANT.EXPIRED_NOT_DELETED) {
-                                    return (
-                                        this.makeItem(task)
-                                    )
-                                }
+                            tasks.filter(task=> {
+                                return task['state'] === CONSTANT.EXPIRED_NOT_DELETED
+                            }).map(task=> {
+                                return (
+                                    this.makeItem(task)
+                                )
                             })
                         )
                     },
                     {
                         key:'未过期',
                         value:(
-                            tasks.map(task=> {
-                                if (task['state'] !== CONSTANT.EXPIRED_NOT_DELETED) {
-                                    return (
-                                        this.makeItem(task)
-                                    )
-                                }
+                            tasks.filter(task=> {
+                                return task['state'] !== CONSTANT.EXPIRED_NOT_DELETED
+                            }).map(task=> {
+                                return (
+                                    this.makeItem(task)
+                                )
                             })
                         )
                     }
@@ -342,12 +432,34 @@ export default class Middle extends React.Component {
             />
         );
 
+        let title;
+
+        switch (this.props.viewType) {
+            case 'today':
+                title = '今日';
+                break;
+            case 'seven':
+                title = '最近7天';
+                break;
+            case 'all':
+                title = '收集箱';
+                break;
+            case 'done':
+                title = '已完成';
+                break;
+            case 'deleted':
+                title = '垃圾桶';
+                break;
+            default:
+                title = this.props.viewType;
+        }
+
         return(
             <div style={{'height': '100%'}}>
-                <div className="col-md-6" style={{'height': '100%', 'border-right':'1px solid #d3d3d3', 'border-left':'1px solid #d3d3d3'}}>
+                <div className="col-md-6" style={{'height': '100%', 'border-right':'1px solid #d3d3d3', 'padding-left':'30px'}}>
                     <header className="form-inline tool-bar">
                         <div className="form-group project-name" id="project-name-bar">
-                            <h3 contentEditable="true">这是一个标题</h3>
+                            {title}
                         </div>
                         <div className="form-group action-bar" style={{"float": "right"}}>
                             <div className="action-btn btn-group">
@@ -356,14 +468,23 @@ export default class Middle extends React.Component {
                                     <span className="glyphicon glyphicon-time" style={{"color": "#6495ed"}}/>
                                 </button>
                                 <ul className="dropdown-menu">
-                                    <li className="active"><a href="#"><span
-    className="action-btn-active-icon glyphicon glyphicon-time"/><span>按时间</span></a>
+                                    <li className={this.state.sortType==='default'?'active':''}>
+                                        <a href="#" onClick={()=>this.changeSort('default')}>
+                                            <span className="action-btn-active-icon glyphicon glyphicon-time"/>
+                                            <span>按时间</span>
+                                        </a>
                                     </li>
-                                    <li><a href="#"><span
-    className="action-btn-inactive-icon glyphicon glyphicon-list-alt"/><span>按清单</span></a>
+                                    <li className={this.state.sortType==='tag'?'active':''}>
+                                        <a href="#" onClick={()=>this.changeSort('tag')}>
+                                            <span className="action-btn-inactive-icon glyphicon glyphicon-list-alt"/>
+                                            <span>按清单</span>
+                                        </a>
                                     </li>
-                                    <li><a href="#"><span
-    className="action-btn-inactive-icon glyphicon glyphicon-fire"/><span>按优先级</span></a>
+                                    <li className={this.state.sortType==='priority'?'active':''}>
+                                        <a href="#" onClick={()=>this.changeSort('priority')}>
+                                            <span className="action-btn-inactive-icon glyphicon glyphicon-fire"/>
+                                            <span>按优先级</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -375,7 +496,7 @@ export default class Middle extends React.Component {
                             <input
                                 id="add-task"
                                 className="form-control"
-                                style={{"position": "relative", "height": "50px", "border": "none", "background-color": "#f5f5f5", "padding": "10px", "font-size": "16px"}}
+                                style={{'width': '90%', 'height': '40px', 'border': 'none', 'background-color': '#f5f5f5', 'padding': '13px', 'font-size': '14px'}}
                                 type="text"
                                 value={state.inputVal}
                                 onChange={this.inputChange}

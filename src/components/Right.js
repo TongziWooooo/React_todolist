@@ -76,12 +76,12 @@ export default class Right extends React.Component {
             <div className="col-md-4" style={{"height": "100%"}}>
                 <div className="desc-title">
                     <div contentEditable="true" style={{"padding-top": "20px", "padding-left": "20px"}}><h3>
-                        <strong>{task['title']}</strong></h3>
+                        <strong>{task.title}</strong></h3>
                     </div>
                 </div>
                 <div className="desc-content">
                     <div contentEditable="true">
-                        <div className="text-justify desc-text">{task['content']}</div>
+                        <div className="text-justify desc-text">{task.content === 'NULL' ? '' : task.content}</div>
                     </div>
                 </div>
             </div>

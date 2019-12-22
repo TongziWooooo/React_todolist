@@ -1,5 +1,7 @@
 
 import React from 'react';
+import * as CONSTANT from './Common';
+// import MyDatePicker from './Common';
 
 // //接收的数据的数据验证
 // let propTypes = {
@@ -81,7 +83,7 @@ export default class Item extends React.Component {
         
         
         //取出todo
-        let {onDestroy,todo,onToggle,onChangeDisplay} = this.props;
+        let {todo, onDelete, onToggle, onChangePriority, onChangeDisplay, onChangeTag} = this.props;
 
         let {inEdit,val} = this.state;
 
@@ -127,56 +129,74 @@ export default class Item extends React.Component {
         //     </li>
         // );
         return(
-            <li className="task">
-                <div className="glyphicon glyphicon-unchecked" style={{"padding": "5px", "display": "inline-block"}}/>
+            <li className="task" onClick={()=>onChangeDisplay(todo)}>
+                <div className={todo.state === CONSTANT.DONE_NOT_DELETED?"glyphicon glyphicon-check":"glyphicon glyphicon-unchecked"}
+                     style={{"padding": "5px", "display": "inline-block"}}
+                     onClick={()=>onToggle(todo)}/>
                 <div style={{"display": "inline-block"}}>{todo.title}</div>
                 <span style={{"float": "right", "display": "inline-block"}}>
 					<span className="action-btn btn-group" style={{"margin": "0", "padding": "0"}}>
                       <button type="button" className="btn btn-default dropdown-toggle btn-xs task-project-name"
                               style={{"border": "none"}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {todo.tag}<span className="caret" style={{"margin-left": "3px"}}/>
+                        {todo.tag === 'default' ? '未设置' : todo.tag}<span className="caret" style={{"margin-left": "3px"}}/>
                       </button>
                       <ul className="dropdown-menu">
                           {
                               this.props.todoTags.map(tag=> {
                                   return(
-                                      <li><a href="#"><span
-                                          className="action-btn-inactive-icon glyphicon glyphicon-tag"/><span>{tag}</span></a></li>
+                                      <li><a href="#">
+                                          <span className="action-btn-inactive-icon glyphicon glyphicon-tag"
+                                                onClick={()=>onChangeTag(todo, tag)}/>
+                                          <span>
+                                              {tag}
+                                          </span>
+                                      </a></li>
                                   )
                               })
                           }
                       </ul>
 					</span>
-					<div className="ddl-time">{todo.ddlTime}</div>
+					<div className="ddl-time">{todo.ddl_time === '2020/02/02'?'未设置':todo.ddl_time}</div>
 					<div className="btn-group">
-					  <button type="button" className="btn btn-default dropdown-toggle" style={{"border": "none"}}
+					  <button type="button" className="btn btn-default dropdown-toggle btn-xs" style={{"border": "none"}}
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					    <span className="glyphicon glyphicon-option-horizontal"
                               style={{"height": "20px", "width": "20px", "color": "#696969"}}/>
 					  </button>
 					  <ul className="dropdown-menu">
 					    <li style={{"padding": "11px"}}><p>到期日</p><span>
+                            {/*<MyDatePicker/>*/}
 						  <div className="input-group date" data-provide="datepicker"
                                style={{"padding-left": "10px", "padding-right": "10px"}}>
-                            <input type="text" className="form-control" value="12-20-2019" style={{"border-radius": "10px"}}/>
+                            <input type="text" className="form-control" value={"12-20-2019"} style={{"border-radius": "10px"}}/>
                           </div>
 						</span></li>
 						<li role="separator" className="divider"/>
 					    <li style={{"padding": "11px"}}><p>优先级</p>
 						<div className="btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
                           <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
-                                  style={{"color": "#ff1493", "background-color": "white"}}/>
+                                  style={{"color": "#ff1493", "background-color": "white"}}
+                                  onClick={()=>onChangePriority(todo, CONSTANT.P4)}/>
                           <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
-                                  style={{"color": "#ff8c00", "background-color": "white"}}/>
+                                  style={{"color": "#ff8c00", "background-color": "white"}}
+                                  onClick={()=>onChangePriority(todo, CONSTANT.P3)}/>
                           <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
-                                  style={{"color": "#4169e1", "background-color": "white"}}/>
+                                  style={{"color": "#4169e1", "background-color": "white"}}
+                                  onClick={()=>onChangePriority(todo, CONSTANT.P2)}/>
 						  <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
-                                  style={{"color": "grey", "background-color": "white"}}/>
+                                  style={{"color": "grey", "background-color": "white"}}
+                                  onClick={()=>onChangePriority(todo, CONSTANT.P1)}/>
                         </div>
 						</li>
 						<li role="separator" className="divider"/>
-					    <li><a href="#"><span
-                            className="action-btn-inactive-icon glyphicon glyphicon-remove-circle"/><span>删除</span></a></li>
+					    <li><a href="#" onClick={()=>onDelete(todo)}>
+                            <span className="action-btn-inactive-icon glyphicon glyphicon-remove-circle"/>
+                            <span>
+                                {(todo.state === CONSTANT.ACTIVE_NOT_DELETED ||
+                                    todo.state === CONSTANT.DONE_NOT_DELETED ||
+                                    todo.state === CONSTANT.EXPIRED_NOT_DELETED) ? '删除' : '恢复'}
+                            </span>
+					    </a></li>
 					  </ul>
 					</div>
 				  </span>
