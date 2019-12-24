@@ -18,11 +18,11 @@ export default class Middle extends React.Component {
                     <section className="task-section">
                         <div className="section-header">
                             <div>
-                                <a data-toggle="collapse" data-parent="#accordion" href={"#opened" + i}>
+                                <div data-toggle="collapse" data-parent="#accordion" href={"#opened" + i}>
                                     <span className="inline-icon glyphicon glyphicon-th-list"/>
                                     {x.key}
                                     <span className="badge" style={{"float": "right"}}>{x.value.length}</span>
-                                </a>
+                                </div>
                             </div>
                         </div>
                         <ul id={"opened" + i} className="collapse in">

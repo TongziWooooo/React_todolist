@@ -79,11 +79,14 @@ export default class Right extends React.Component {
                         <strong>{task.title}</strong></h3>
                     </div>
                 </div>
-                <div className="desc-content">
-                    <div contentEditable="true">
-                        <div className="text-justify desc-text">{task.content === 'NULL' ? '' : task.content}</div>
-                    </div>
+                <div className="desc-content" style={{"height": "100%"}}>
+                <textarea className="desc-text" placeholder="描述">{task.content === 'NULL' ? '' : task.content}</textarea>
                 </div>
+                {/* <div style={{"height": "100%", "display":"flex", "flex-direction": "column", "justify-content": "center", "align-items": "center", "color": "grey", "opacity": "0.5"}}>
+                    <img src={require('./../common/holder.jpg')} style={{"height": "150px", "border-radius": "150px", "margin-bottom": "30px"}}/>
+                    <span><h3>点击任务标题查看详情</h3></span>
+                </div> */}
+                               
             </div>
         )
     }

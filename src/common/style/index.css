@@ -3,43 +3,70 @@ html,body{
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	position: fixed;
 }
 
 .divider {
 	border-bottom: 1px solid #d3d3d3;
 }
 
-.left-menu {
-	height: 100%;
-	width: 30%;
-	border: 1px solid blue;
+/* 定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: rgba(240, 240, 240, 1);
 }
-.mid-menu {
-	height: 100%;
-	width: 30%;
-	border: 1px solid purple;
+ 
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
+  border-radius: 10px;
+  background-color: rgba(240, 240, 240, .5);
 }
-.right-menu {
-	height: 100%;
-	width: 40%;
-	border: 1px solid green;
+ 
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
+  background-color: rgba(217, 204, 233, 0.795);
 }
 
-.nav-sidebar {
-	/*margin-right: -20px;  20px padding + 1px border */
+.username {
+	padding-left: 10px;
 }
+
+/*.nav-sidebar {
+	margin-right: -20px;  20px padding + 1px border
+}
+*/
 .nav-sidebar > li > a {
 	border-radius: 5px;
 	padding-right: 20px;
 	padding-left: 20px;
 }
+
 .nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-	color: black;
-	opacity: 0.8;
-	background-color: #e6e6fa;
-}
+		.nav-sidebar > .active > a:hover,
+		.nav-sidebar > .active > a:focus {
+			font-weight: bold;
+		  color: black;
+		  background-color: #e6e6fa;
+		}
+		
+		.nav-sidebar > .inactive > a {
+		  color: black;
+		  opacity: 0.8;
+		}
+		
+		.nav-sidebar > .inactive > a:hover {
+		  color: black;
+		  background-color: #e6e6fa;
+		}
+		
+		.sidebar-inline-icon {
+		  margin-right: 12px;
+		  color: grey;
+		}
 
 .inline-icon {
 	margin-right: 5px;
@@ -72,10 +99,9 @@ html,body{
 	color: gray;
 }
 
-.show-more {
-	font-size: 12px;
-	margin-top: 20px;
-	color: gray;
+.task-list-scroll{
+	height: 100%;
+	overflow-y: auto;
 }
 
 .task-section {
@@ -96,10 +122,19 @@ html,body{
 	list-style: none;
 	cursor: pointer;
 	border-radius: 10px;
+	border-bottom: 1px solid #ebe8e8;
 }
 
 .task:hover {
 	background-color: #e6e6fa;
+}
+
+.finished-task{
+	color: #c0c0c0;
+}
+
+.checkbox-icon {
+	color: #c0c0c0;
 }
 
 .task-project-name {
@@ -118,11 +153,21 @@ html,body{
 .desc-text {
 	font-size: 16px;
 	line-height: 24px;
-	height: 100%;
+			height: 100%; 
 	width: 100%;
 	border: none;
 	padding-top: 10px;
 	padding-left: 20px;
 	padding-right: 20px;
 	overflow-y: auto;
+}
+
+div:focus
+{
+	outline: none;
+}
+		
+textarea:focus
+{
+	 outline: none;
 }

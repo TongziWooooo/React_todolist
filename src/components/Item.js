@@ -129,8 +129,8 @@ export default class Item extends React.Component {
         //     </li>
         // );
         return(
-            <li className="task" onClick={()=>onChangeDisplay(todo)}>
-                <div className={todo.state === CONSTANT.DONE_NOT_DELETED?"glyphicon glyphicon-check":"glyphicon glyphicon-unchecked"}
+            <li className={todo.state === CONSTANT.DONE_NOT_DELETED?"task finished-task":"task"} onClick={()=>onChangeDisplay(todo)}>
+                <div className={todo.state === CONSTANT.DONE_NOT_DELETED?"glyphicon glyphicon-check checkbox-icon":"glyphicon glyphicon-unchecked checkbox-icon"}
                      style={{"padding": "5px", "display": "inline-block"}}
                      onClick={()=>onToggle(todo)}/>
                 <div style={{"display": "inline-block"}}>{todo.title}</div>

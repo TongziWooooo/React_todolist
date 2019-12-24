@@ -15,8 +15,10 @@
   "license": "ISC",
   "bugs": {},
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "prop-types": "^15.5.8",
     "react": "^15.5.0",
+    "react-datepicker": "^2.9.3",
     "react-dom": "^15.5.0",
     "react-router-dom": "^4.1.1",
     "superagent": "^5.1.2"

@@ -178,7 +178,7 @@ export default class Left extends React.Component {
         let todoTags = state.todoTags;
         todoTags = todoTags.map(tag=> {
             return(
-                <li className={state.viewType===tag?'active':''}><a href="#" onClick={()=>this.changeViewType(tag)}>{tag}</a></li>
+                <li className={state.viewType===tag?'active':'inactive'}><a href="#" onClick={()=>this.changeViewType(tag)}><span className="sidebar-inline-icon glyphicon glyphicon-heart-empty"></span>{tag}</a></li>
             )
         });
 
@@ -194,24 +194,25 @@ export default class Left extends React.Component {
         return (
             <div style={{"height": "100%"}}>
                 <div className="row" style={{"height": "100%"}}>
-                    <div className="col-md-2 sidebar" style={{"height": "100%", "background": "rgba(f5,f5,f5,0.9)"}}>
-                        <div className="tool-bar">
-                            <label><h3>{'🍎 ' + this.props.username}</h3></label>
+                    <div className="col-md-2 sidebar" style={{"height": "100%", 'border-right':'1px solid #d3d3d3', "background": "rgba(230,230,250,0.3)"}}>
+                        <div className="username">
+                            <label><h3>{'🎅  ' + this.props.username}</h3></label>
                         </div>
+                        <div className="divider"/>
                         <div className="project-view">
                             <section>
                                 <div className="smart-view">
                                     <ul className="nav nav-sidebar">
-                                        <li className={this.state.viewType==='today'?'active':''}><a href="#" onClick={()=>this.changeViewType('today')}>今日</a></li>
-                                        <li className={this.state.viewType==='seven'?'active':''}><a href="#" onClick={()=>this.changeViewType('seven')}>最近7天</a></li>
-                                        <li className={this.state.viewType==='all'?'active':''}><a href="#" onClick={()=>this.changeViewType('all')}>收集箱</a></li>
+                                        <li className={this.state.viewType==='today'?'active':'inactive'}><a href="#" onClick={()=>this.changeViewType('today')}><span className="sidebar-inline-icon glyphicon glyphicon glyphicon-thumbs-up"></span>今日</a></li>
+                                        <li className={this.state.viewType==='seven'?'active':'inactive'}><a href="#" onClick={()=>this.changeViewType('seven')}><span className="sidebar-inline-icon glyphicon glyphicon-briefcase"></span>最近7天</a></li>
+                                        <li className={this.state.viewType==='all'?'active':'inactive'}><a href="#" onClick={()=>this.changeViewType('all')}><span className="sidebar-inline-icon glyphicon glyphicon-folder-open"></span>收集箱</a></li>
                                     </ul>
                                 </div>
                             </section>
                             <section>
                                 <ul className="nav nav-sidebar">
-                                    <li className={this.state.viewType==='done'?'active':''}><a href="#" onClick={()=>this.changeViewType('done')}>已完成</a></li>
-                                    <li className={this.state.viewType==='deleted'?'active':''}><a href="#" onClick={()=>this.changeViewType('deleted')}>垃圾桶</a></li>
+                                    <li className={this.state.viewType==='done'?'active':'inactive'}><a href="#" onClick={()=>this.changeViewType('done')}><span className="sidebar-inline-icon glyphicon glyphicon-ok-circle"></span>已完成</a></li>
+                                    <li className={this.state.viewType==='deleted'?'active':'inactive'}><a href="#" onClick={()=>this.changeViewType('deleted')}><span className="sidebar-inline-icon glyphicon glyphicon-remove-sign"></span>垃圾桶</a></li>
                                 </ul>
                             </section>
                             <div className="divider"/>
