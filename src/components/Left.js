@@ -61,7 +61,7 @@ export default class Left extends React.Component {
     }
 
     // TODO：获取标签及标签下的tasks
-    getAllTag(token) {
+    async getAllTag(token) {
         let that = this;
         superagent
             .get('http://aliyun.nihil.top:10999/api/task/tag/list?SecretKey=kdK4AnNlLm')
@@ -105,7 +105,6 @@ export default class Left extends React.Component {
                 todo.ddl_time = timeToDay(item['ddl_time']);
                 return todo
             });
-
             this.setState({
                 todosData: items
             });
@@ -126,6 +125,7 @@ export default class Left extends React.Component {
     // }
 
     async updatePage() {
+        await this.getAllTag(this.state.token);
         await this.updateIllegal(this.state.token);
         await this.getAllTask(this.state.token);
     }
