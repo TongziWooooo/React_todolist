@@ -45,6 +45,9 @@ export default class Middle extends React.Component {
         this.changeSort = this.changeSort.bind(this);
         this.setExpired = this.setExpired.bind(this);
         this.onChangeTag = this.onChangeTag.bind(this);
+        this.onChangeDate = this.onChangeDate.bind(this);
+        this.onChangeTitle = this.onChangeTitle.bind(this);
+        this.onChangeContent = this.onChangeContent.bind(this);
 
         // this.props.tasks.forEach(task=> {
         //     let date = new Date();
@@ -211,11 +214,16 @@ export default class Middle extends React.Component {
         }
     }
 
-    async onChangeDate(task, time) {
+    async onChangeDate(task, date) {
         let {token} = this.state;
 
-        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], task['state'],
-            task['priority'], task['tag'], time);
+        // 12/20/2019
+        // 2020-02-02 00:00:00
+        let temp = date.split('/');
+        date = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 00:00:00';
+
+        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], CONSTANT.ACTIVE_NOT_DELETED,
+            task['priority'], task['tag'], date);
 
         if (res) {
             let {updatePage} = this.props;
@@ -250,24 +258,30 @@ export default class Middle extends React.Component {
     async onChangeTitle(task, title) {
         let {token} = this.state;
 
-        let res = await this.modifyTask(token, task['id'], title, task['content'], task['state'],
+        task['title'] = title === '' ? 'NULL' : title;
+
+        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], task['state'],
             task['priority'], task['tag'], task['ddl_time']);
 
         if (res) {
             let {updatePage} = this.props;
-            updatePage();
+            await updatePage();
+            // await this.onChangeDisplay(task);
         }
     }
 
     async onChangeContent(task, content) {
         let {token} = this.state;
 
-        let res = await this.modifyTask(token, task['id'], task['title'], content, task['state'],
+        task['content'] = content === '' ? 'NULL' : content;
+
+        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], task['state'],
             task['priority'], task['tag'], task['ddl_time']);
 
         if (res) {
             let {updatePage} = this.props;
-            updatePage();
+            await updatePage();
+            // await this.onChangeDisplay(task);
         }
     }
 
@@ -314,7 +328,8 @@ export default class Middle extends React.Component {
                     onToggle: this.onToggle,
                     itemEditDone: this.itemEditDone,
                     onChangePriority: this.onChangePriority,
-                    onChangeTag: this.onChangeTag
+                    onChangeTag: this.onChangeTag,
+                    onChangeDate: this.onChangeDate
                 }}
             />
         )
@@ -509,7 +524,9 @@ export default class Middle extends React.Component {
                 </div>
                 <Right
                     {...{
-                        displayTask: state.displayTask
+                        displayTask: state.displayTask,
+                        onChangeContent: this.onChangeContent,
+                        onChangeTitle: this.onChangeTitle
                     }}
                 />
             </div>

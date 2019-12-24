@@ -17,6 +17,11 @@ export function timeToDay(time) {
     return time.replace(/-/g,"/").split(" ")[0]
 }
 
+export function dateToPicker(time) {
+    let temp = time.split('/');
+    return temp[1] + '/' + temp[2] + '/' + temp[0]
+}
+
 // export default class MyDatePicker extends Component {
 //     constructor(props) {
 //         super(props);
