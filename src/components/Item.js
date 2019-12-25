@@ -141,12 +141,12 @@ export default class Item extends React.Component {
                               style={{"border": "none"}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {todo.tag === 'default' ? '未设置' : todo.tag}<span className="caret" style={{"margin-left": "3px"}}/>
                       </button>
-                      <ul className="dropdown-menu">
+                      <ul className="dropdown-menu" style={{"position": "absolute", "left": "-100px"}}>
                           {
                               this.props.todoTags.map(tag=> {
                                   return(
                                       <li><a href="#" onClick={()=>onChangeTag(todo, tag)}>
-                                          <span className="action-btn-inactive-icon glyphicon glyphicon-tag"/>
+                                          <span className="action-btn-icon glyphicon glyphicon-tag"/>
                                           <span>
                                               {tag}
                                           </span>
@@ -204,7 +204,7 @@ export default class Item extends React.Component {
 						</li>
 						<li role="separator" className="divider"/>
 					    <li><a href="#" onClick={()=>onDelete(todo)}>
-                            <span className="action-btn-inactive-icon glyphicon glyphicon-remove-circle"/>
+                            <span className="action-btn-icon glyphicon glyphicon-remove-circle"/>
                             <span>
                                 {(todo.state === CONSTANT.ACTIVE_NOT_DELETED ||
                                     todo.state === CONSTANT.DONE_NOT_DELETED ||
