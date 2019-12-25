@@ -20,6 +20,7 @@ export default class UserLogin extends React.Component {
     render() {
         return (
             <div className="container main">
+                <img src={require('./../common/holder.jpg')} style={{"height": "80px", "border-radius": "80px", "border": "none"}}/>
                         <div className="login-box">
                             <form className="form-signin">
                                 <div className="input-line">
@@ -38,19 +39,19 @@ export default class UserLogin extends React.Component {
                                         this.setUserInfo(e, 'password')
                                     })}/>
                                 </div>
-                                <div className="checkbox" style={{'margin-bottom': '50px'}}>
+                                {/* <div className="checkbox" style={{'margin-bottom': '30px'}}>
                                     <label>
                                         <input type="checkbox" value="remember-me"/> Remember me
                                     </label>
-                                </div>
+                                </div> */}
                                 <div className="btn-container">
-                                    <button className="btn btn-block my-btn" type="submit" onClick={() => {
+                                    <button className="btn my-btn" type="submit" onClick={() => {
                                         let p = this.props.passport == null ? new Passport() : this.props.passport;
                                         p.login(this.state.username, this.state.password, () => {
                                             this.props.history.push('/');
                                         });
                                     }}>登录</button>
-                                    <button className="btn btn-block my-btn" type="submit" onClick={() => {
+                                    <button className="btn my-btn" type="submit" onClick={() => {
                                         let p = this.props.passport == null ? new Passport() : this.props.passport;
                                         p.register(this.state.username, this.state.password, () => {
                                             this.props.history.push('/');
