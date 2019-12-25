@@ -1,5 +1,5 @@
 import Item from "./Item"; //每一项todo组件
-import Right from "./right";
+import Right from "./Right";
 import React from 'react';
 import * as CONSTANT from './Common';
 
