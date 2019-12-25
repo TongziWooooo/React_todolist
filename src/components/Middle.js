@@ -482,22 +482,22 @@ export default class Middle extends React.Component {
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span className="glyphicon glyphicon-time" style={{"color": "#6495ed"}}/>
                                 </button>
-                                <ul className="dropdown-menu">
-                                    <li className={this.state.sortType==='default'?'active':''}>
+                                <ul className="dropdown-menu sort-menu">
+                                    <li className={this.state.sortType==='default'?'active':'inactive'}>
                                         <a href="#" onClick={()=>this.changeSort('default')}>
-                                            <span className="action-btn-active-icon glyphicon glyphicon-time"/>
+                                            <span className="action-btn-icon glyphicon glyphicon-time"/>
                                             <span>按时间</span>
                                         </a>
                                     </li>
-                                    <li className={this.state.sortType==='tag'?'active':''}>
+                                    <li className={this.state.sortType==='tag'?'active':'inactive'}>
                                         <a href="#" onClick={()=>this.changeSort('tag')}>
-                                            <span className="action-btn-inactive-icon glyphicon glyphicon-list-alt"/>
+                                            <span className="action-btn-icon glyphicon glyphicon-list-alt"/>
                                             <span>按清单</span>
                                         </a>
                                     </li>
-                                    <li className={this.state.sortType==='priority'?'active':''}>
+                                    <li className={this.state.sortType==='priority'?'active':'inactive'}>
                                         <a href="#" onClick={()=>this.changeSort('priority')}>
-                                            <span className="action-btn-inactive-icon glyphicon glyphicon-fire"/>
+                                            <span className="action-btn-icon glyphicon glyphicon-fire"/>
                                             <span>按优先级</span>
                                         </a>
                                     </li>

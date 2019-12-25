@@ -23,16 +23,17 @@ export default class Right extends React.Component {
 
         return(
             <div className="col-md-4" style={{"height": "100%"}}>
-                <div className="desc-title" style={{"height":"10%"}}>
-                    <div id='title' contentEditable="true" style={{"margin-top": "20px", "margin-left": "20px"}}>
+                <div className="desc-title">
+                    <div className="desc-title-text" placeholder="准备做什么？" id='title' contentEditable="true" style={{"margin-top": "20px", "margin-left": "20px"}}>
                         {task.title === 'NULL' ? '' : task.title}</div>
                 </div>
-                <div className="desc-content" style={{"height": "85%"}}>
+                <div className="divider"/>                
 		            <div contentEditable='true' id='content' className="desc-text" placeholder="描述">
                         {task.content === 'NULL' ? '' : task.content}
 		            </div>
-                </div>
-                <button onClick={()=>{this.inputChangeTitleAndContent(task)}}>确定</button>
+                <div className="divider"/>
+                <button className="btn btn-large" style={{"margin-top": "14px", "background": "rgba(106,90,205,0.8)", "color": "white"}} 
+                onClick={()=>{this.inputChangeTitleAndContent(task)}}>保存</button>
             </div>
         )
     }

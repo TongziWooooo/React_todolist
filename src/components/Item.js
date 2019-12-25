@@ -173,20 +173,19 @@ export default class Item extends React.Component {
 					    <span className="glyphicon glyphicon-option-horizontal"
                               style={{"height": "20px", "width": "20px", "color": "#696969"}}/>
 					  </button>
-					  <ul className="dropdown-menu">
-					    <li style={{"padding": "11px"}}><p>到期日</p><span>
+					  <ul className="dropdown-menu" style={{"position": "absolute", "left": "-200px"}}>
+					    <li style={{"padding": "11px"}}><p>到期日</p>
                             {/*<MyDatePicker/>*/}
 						  <div className="input-group date" data-provide="datepicker"
                                style={{"padding-left": "10px", "padding-right": "10px"}}>
                             <input type="text" className="form-control" value={dateToPicker(todo.ddl_time)} style={{"border-radius": "10px"}}
                                    ref={input => this.inputDate = input}/>
-
                           </div>
-                            <button type="submit" className="btn btn-default btn-sm"
-                                    style={{"border-radius": "7px", "margin-left": "5px"}}
+                          <button type="submit" className="btn btn-default btn-sm"
+                                    style={{"border-radius": "7px", "position": "absolute", "right": "25px", "margin-top": "5px"}}
                                     onClick={()=>onChangeDate(todo, this.inputDate.value)}>确定</button>
-						</span></li>
-						<li role="separator" className="divider"/>
+						</li>
+						<li role="separator" className="divider" style={{"margin-top": "30px"}}/>
 					    <li style={{"padding": "11px"}}><p>优先级</p>
 						<div className="btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
                           <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
