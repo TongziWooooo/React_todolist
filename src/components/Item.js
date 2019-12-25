@@ -31,7 +31,7 @@ export default class Item extends React.Component {
 
         return(
             <li className={todo.state === CONSTANT.DONE_NOT_DELETED?"finished-task":
-            (((todo.state === CONSTANT.DONE_DELETED) || (todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED))?"deleted-task": "task")} 
+            ((todo.state === CONSTANT.DONE_DELETED || todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED)?"deleted-task": "task")} 
             onClick={()=>onChangeDisplay(todo)}>
                 <div className={todo.state === CONSTANT.DONE_NOT_DELETED?"glyphicon glyphicon-check checkbox-icon":"glyphicon glyphicon-unchecked checkbox-icon"}
                      style={{"padding": "5px", "display": "inline-block"}}
@@ -39,7 +39,8 @@ export default class Item extends React.Component {
                 <div style={{"display": "inline-block"}}>{todo.title === 'NULL' ? '' : todo.title}</div>
                 <span style={{"float": "right", "display": "inline-block"}}>
 					<span className="action-btn btn-group" style={{"margin": "0", "padding": "0"}}>
-                      <button type="button" className="no-click btn btn-default dropdown-toggle btn-xs task-project-name"
+                      <button type="button" className={"btn btn-default dropdown-toggle btn-xs task-project-name" + 
+                      ((todo.state === CONSTANT.DONE_DELETED || todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED)? " no-click" : "")}
                               style={{"border": "none"}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {todo.tag === 'default' ? '未设置' : todo.tag}<span className="caret" style={{"margin-left": "3px"}}/>
                       </button>
@@ -76,7 +77,7 @@ export default class Item extends React.Component {
                               style={{"height": "20px", "width": "20px", "color": "#696969"}}/>
 					  </button>
 					  <ul className="dropdown-menu" style={{"position": "absolute", "left": "-200px"}}>
-					    <li className="no-click" style={{"padding": "11px"}}><p>到期日</p>
+					    <li className={todo.state === CONSTANT.DONE_DELETED || todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED? " no-click" : ""} style={{"padding": "11px"}}><p>到期日</p>
                             {/*<MyDatePicker/>*/}
 						  <div className="input-group date" data-provide="datepicker"
                                style={{"padding-left": "10px", "padding-right": "10px"}}>
@@ -90,7 +91,9 @@ export default class Item extends React.Component {
 						</li>
 						<li role="separator" className="divider" style={{"margin-top": "30px"}}/>
 					    <li style={{"padding": "11px"}}><p>优先级</p>
-						<div className="no-click btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
+                        <div className={"btn-group btn-group-sm" + ((todo.state === CONSTANT.DONE_DELETED || 
+                            todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED)? " no-click" : "")} 
+                            role="group" style={{"display": "table-cell"}}>
                           <button type="button" className={(todo.priority === CONSTANT.P4 ?
                               'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#ff1493", "background-color": "white"}}

@@ -31,7 +31,7 @@ export default class Passport {
                         that.isLogin = true;
                         that.username = username;
                         that.token = json['data']['token'];
-                        alert('登陆成功！');
+                        alert('登录成功！');
                         callback();
                     } else {
                         that.isLogin = false;
