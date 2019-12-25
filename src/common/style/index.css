@@ -132,11 +132,26 @@ html,body{
 	border-bottom: 1px solid #ebe8e8;
 }
 
+.deleted-task {
+	height: 45px;
+	padding: 9px;
+	list-style: none;
+	cursor: not-allowed;
+	border-radius: 10px;
+	border-bottom: 1px solid #ebe8e8;
+}
+
 .task:hover {
 	background-color: #e6e6fa;
 }
 
 .finished-task{
+	height: 45px;
+	padding: 9px;
+	list-style: none;
+	cursor: pointer;
+	border-radius: 10px;
+	border-bottom: 1px solid #ebe8e8;
 	color: #c0c0c0;
 }
 
@@ -193,4 +208,9 @@ div:focus
 textarea:focus
 {
 	 outline: none;
+}
+
+.no-click {
+	pointer-events: none;
+	cursor: not-allowed;
 }

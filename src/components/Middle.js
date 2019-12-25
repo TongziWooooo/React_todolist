@@ -38,6 +38,7 @@ export default class Middle extends React.Component {
         this.handleKeyDownPost = this.handleKeyDownPost.bind(this);
         this.onChangePriority = this.onChangePriority.bind(this);
         this.onDelete = this.onDelete.bind(this);
+        this.onCompleteDelete = this.onCompleteDelete.bind(this);
         this.inputChange = this.inputChange.bind(this);
         this.onToggle = this.onToggle.bind(this);
         this.itemEditDone = this.itemEditDone.bind(this);
@@ -189,6 +190,25 @@ export default class Middle extends React.Component {
 
     }
 
+    async onCompleteDelete(task) {
+        let {token} = this.state;
+        try {
+            let res = await superagent
+                .post('http://aliyun.nihil.top:10999/api/task/delete/id?SecretKey=kdK4AnNlLm')
+                .set('token', token)
+                .send({
+                    'id': task['id']
+                });
+        } catch(err) {
+            alert(err);
+            alert('彻底删除失败！');
+        }
+
+        let {updatePage} = this.props;
+        updatePage();
+        this.click(true);
+    }
+
     async onToggle(task) {
         let {token} = this.state;
 
@@ -329,6 +349,7 @@ export default class Middle extends React.Component {
                     todo:task,
                     onChangeDisplay: this.onChangeDisplay,
                     onDelete: this.onDelete,
+                    onCompleteDelete: this.onCompleteDelete,
                     onToggle: this.onToggle,
                     itemEditDone: this.itemEditDone,
                     onChangePriority: this.onChangePriority,

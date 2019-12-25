@@ -26,18 +26,20 @@ export default class Item extends React.Component {
 
         
         
-        let {todo, onDelete, onToggle, onChangePriority, onChangeDisplay, onChangeTag, onChangeDate} = this.props;
+        let {todo, onDelete, onCompleteDelete, onToggle, onChangePriority, onChangeDisplay, onChangeTag, onChangeDate} = this.props;
 
 
         return(
-            <li className={todo.state === CONSTANT.DONE_NOT_DELETED?"task finished-task":"task"} onClick={()=>onChangeDisplay(todo)}>
+            <li className={todo.state === CONSTANT.DONE_NOT_DELETED?"finished-task":
+            (((todo.state === CONSTANT.DONE_DELETED) || (todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED))?"deleted-task": "task")} 
+            onClick={()=>onChangeDisplay(todo)}>
                 <div className={todo.state === CONSTANT.DONE_NOT_DELETED?"glyphicon glyphicon-check checkbox-icon":"glyphicon glyphicon-unchecked checkbox-icon"}
                      style={{"padding": "5px", "display": "inline-block"}}
                      onClick={()=>onToggle(todo)}/>
                 <div style={{"display": "inline-block"}}>{todo.title === 'NULL' ? '' : todo.title}</div>
                 <span style={{"float": "right", "display": "inline-block"}}>
 					<span className="action-btn btn-group" style={{"margin": "0", "padding": "0"}}>
-                      <button type="button" className="btn btn-default dropdown-toggle btn-xs task-project-name"
+                      <button type="button" className="no-click btn btn-default dropdown-toggle btn-xs task-project-name"
                               style={{"border": "none"}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {todo.tag === 'default' ? '未设置' : todo.tag}<span className="caret" style={{"margin-left": "3px"}}/>
                       </button>
@@ -74,7 +76,7 @@ export default class Item extends React.Component {
                               style={{"height": "20px", "width": "20px", "color": "#696969"}}/>
 					  </button>
 					  <ul className="dropdown-menu" style={{"position": "absolute", "left": "-200px"}}>
-					    <li style={{"padding": "11px"}}><p>到期日</p>
+					    <li className="no-click" style={{"padding": "11px"}}><p>到期日</p>
                             {/*<MyDatePicker/>*/}
 						  <div className="input-group date" data-provide="datepicker"
                                style={{"padding-left": "10px", "padding-right": "10px"}}>
@@ -88,7 +90,7 @@ export default class Item extends React.Component {
 						</li>
 						<li role="separator" className="divider" style={{"margin-top": "30px"}}/>
 					    <li style={{"padding": "11px"}}><p>优先级</p>
-						<div className="btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
+						<div className="no-click btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
                           <button type="button" className={(todo.priority === CONSTANT.P4 ?
                               'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#ff1493", "background-color": "white"}}
@@ -109,12 +111,20 @@ export default class Item extends React.Component {
 						</li>
 						<li role="separator" className="divider"/>
 					    <li><a href="#" onClick={()=>onDelete(todo)}>
-                            <span className="action-btn-icon glyphicon glyphicon-remove-circle"/>
+                            <span className={(todo.state === CONSTANT.ACTIVE_NOT_DELETED ||
+                                    todo.state === CONSTANT.DONE_NOT_DELETED ||
+                                    todo.state === CONSTANT.EXPIRED_NOT_DELETED) ? "action-btn-icon glyphicon glyphicon-remove" : "action-btn-icon glyphicon glyphicon-ok"}/>
                             <span>
                                 {(todo.state === CONSTANT.ACTIVE_NOT_DELETED ||
                                     todo.state === CONSTANT.DONE_NOT_DELETED ||
                                     todo.state === CONSTANT.EXPIRED_NOT_DELETED) ? '删除' : '恢复'}
                             </span>
+					    </a></li>
+                        <li className={(todo.state === CONSTANT.ACTIVE_NOT_DELETED ||
+                                    todo.state === CONSTANT.DONE_NOT_DELETED ||
+                                    todo.state === CONSTANT.EXPIRED_NOT_DELETED) ? "sr-only" : ""}><a href="#" onClick={()=>onCompleteDelete(todo)}>
+                            <span className="action-btn-icon glyphicon glyphicon-remove" style={{"color": "red"}}/>
+                            <span>彻底删除</span>
 					    </a></li>
 					  </ul>
 					</div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import * as CONSTANT from './Common'
 
 export default class Right extends React.Component {
     constructor(props) {
@@ -43,7 +44,7 @@ export default class Right extends React.Component {
 
             this.state.isDefaultView ? this.state.defaultView :
                 (
-                    <div className="col-md-4" style={{"height": "100%"}}>
+                    <div className={"col-md-4 " + (task.state === CONSTANT.DONE_DELETED || CONSTANT.ACTIVE_OR_EXPIRED_DELETED ? 'no-click' : '')} style={{"height": "100%"}}>
                         <div className="desc-title">
                             <div className="desc-title-text" placeholder="准备做什么？" id='title' contentEditable="true" style={{"margin-top": "20px", "margin-left": "20px"}}>
                                 {task.title === 'NULL' ? '' : task.title}
