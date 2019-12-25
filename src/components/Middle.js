@@ -185,6 +185,8 @@ export default class Middle extends React.Component {
             let {updatePage} = this.props;
             updatePage();
         }
+        this.click(true);
+
     }
 
     async onToggle(task) {
@@ -355,66 +357,14 @@ export default class Middle extends React.Component {
         let tasks = this.props.tasks;
 
         let itemBox = null;
-        switch(state.sortType) {
-            case 'tag':
-                itemBox = this.props.tags.map(tag=> {
-                    let key = tag;
-                    let value = tasks.filter(task=>{
-                        return task['tag'] === tag
-                    }).map(task=> {
-                        return (
-                            this.makeItem(task)
-                        )
-                    });
-                    return {
-                        key: key,
-                        value: value
-                    }
-                });
-                break;
-            case 'priority':
+        switch(this.props.viewType) {
+            case 'done':
                 itemBox = [
                     {
-                        key:'高',
+                        key:'已完成',
                         value:(
                             tasks.filter(task=> {
-                                return task['priority'] === CONSTANT.P4
-                            }).map(task=> {
-                                return (
-                                    this.makeItem(task)
-                                )
-                            })
-                        )
-                    },
-                    {
-                        key:'中',
-                        value:(
-                            tasks.filter(task=> {
-                                return task['priority'] === CONSTANT.P3
-                            }).map(task=> {
-                                return (
-                                    this.makeItem(task)
-                                )
-                            })
-                        )
-                    },
-                    {
-                        key:'低',
-                        value:(
-                            tasks.filter(task=> {
-                                return task['priority'] === CONSTANT.P2
-                            }).map(task=> {
-                                return (
-                                    this.makeItem(task)
-                                )
-                            })
-                        )
-                    },
-                    {
-                        key:'无',
-                        value:(
-                            tasks.filter(task=> {
-                                return task['priority'] === CONSTANT.P1
+                                return task['state'] === CONSTANT.DONE_NOT_DELETED
                             }).map(task=> {
                                 return (
                                     this.makeItem(task)
@@ -424,25 +374,13 @@ export default class Middle extends React.Component {
                     }
                 ];
                 break;
-            default:
+            case 'deleted':
                 itemBox = [
                     {
-                        key:'已过期',
+                        key:'垃圾桶',
                         value:(
                             tasks.filter(task=> {
-                                return task['state'] === CONSTANT.EXPIRED_NOT_DELETED
-                            }).map(task=> {
-                                return (
-                                    this.makeItem(task)
-                                )
-                            })
-                        )
-                    },
-                    {
-                        key:'未过期',
-                        value:(
-                            tasks.filter(task=> {
-                                return task['state'] !== CONSTANT.EXPIRED_NOT_DELETED
+                                return task['state'] === CONSTANT.ACTIVE_OR_EXPIRED_DELETED || CONSTANT.DONE_DELETED
                             }).map(task=> {
                                 return (
                                     this.makeItem(task)
@@ -450,8 +388,161 @@ export default class Middle extends React.Component {
                             })
                         )
                     }
-                ]
+                ];
+                break;
+            case 'all':
+            case 'today':
+            case 'seven':
+            default:
+                switch(state.sortType) {
+                    case 'tag':
+                        itemBox = this.props.tags.map(tag=> {
+                            let key = tag;
+                            let value = tasks.filter(task=>{
+                                return task['tag'] === tag
+                            }).filter(task=> {
+                                return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                            }).map(task=> {
+                                return (
+                                    this.makeItem(task)
+                                )
+                            });
+                            return {
+                                key: key,
+                                value: value
+                            }
+                        });
+                        itemBox.push({
+                            key: '已完成',
+                            value: (
+                                tasks.filter(task=> {
+                                    return task['state'] === CONSTANT.DONE_NOT_DELETED
+                                }).map(task=> {
+                                    return (
+                                        this.makeItem(task)
+                                    )
+                                })
+                            )
+                        });
+                        break;
+                    case 'priority':
+                        itemBox = [
+                            {
+                                key:'高',
+                                value:(
+                                    tasks.filter(task=> {
+                                        return task['priority'] === CONSTANT.P4
+                                    }).filter(task=> {
+                                        return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            },
+                            {
+                                key:'中',
+                                value:(
+                                    tasks.filter(task=> {
+                                        return task['priority'] === CONSTANT.P3
+                                    }).filter(task=> {
+                                        return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            },
+                            {
+                                key:'低',
+                                value:(
+                                    tasks.filter(task=> {
+                                        return task['priority'] === CONSTANT.P2
+                                    }).filter(task=> {
+                                        return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            },
+                            {
+                                key:'无',
+                                value:(
+                                    tasks.filter(task=> {
+                                        return task['priority'] === CONSTANT.P1
+                                    }).filter(task=> {
+                                        return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            },
+                            {
+                                key: '已完成',
+                                value: (
+                                    tasks.filter(task=> {
+                                        return task['state'] === CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            }
+                        ];
+                        break;
+                    default:
+                        itemBox = [
+                            {
+                                key:'已过期',
+                                value:(
+                                    tasks.filter(task=> {
+                                        return task['state'] === CONSTANT.EXPIRED_NOT_DELETED
+                                    }).filter(task=> {
+                                        return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            },
+                            {
+                                key:'未过期',
+                                value:(
+                                    tasks.filter(task=> {
+                                        return task['state'] !== CONSTANT.EXPIRED_NOT_DELETED
+                                    }).filter(task=> {
+                                        return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            },
+                            {
+                                key: '已完成',
+                                value: (
+                                    tasks.filter(task=> {
+                                        return task['state'] === CONSTANT.DONE_NOT_DELETED
+                                    }).map(task=> {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                )
+                            }
+                        ]
+                }
         }
+
 
         let Child = (
             <ItemsConstructor
@@ -494,7 +585,11 @@ export default class Middle extends React.Component {
                             <div className="action-btn btn-group">
                                 <button type="button" className="btn btn-default dropdown-toggle" style={{"border": "none"}}
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span className="glyphicon glyphicon-time" style={{"color": "#6495ed"}}/>
+                                    <span className={
+                                        this.state.sortType==='default'?'glyphicon glyphicon-time':
+                                            (this.state.sortType==='tag'?'glyphicon glyphicon-list-alt':'glyphicon glyphicon-fire')
+                                    }
+                                     style={{"color": "rgba(106,90,205,0.8)"}}/>
                                 </button>
                                 <ul className="dropdown-menu sort-menu">
                                     <li className={this.state.sortType==='default'?'active':'inactive'}>
