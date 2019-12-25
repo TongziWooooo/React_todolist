@@ -180,6 +180,7 @@ export default class Item extends React.Component {
                                style={{"padding-left": "10px", "padding-right": "10px"}}>
                             <input type="text" className="form-control" value={dateToPicker(todo.ddl_time)} style={{"border-radius": "10px"}}
                                    ref={input => this.inputDate = input}/>
+
                           </div>
                           <button type="submit" className="btn btn-default btn-sm"
                                     style={{"border-radius": "7px", "position": "absolute", "right": "25px", "margin-top": "5px"}}
@@ -188,16 +189,20 @@ export default class Item extends React.Component {
 						<li role="separator" className="divider" style={{"margin-top": "30px"}}/>
 					    <li style={{"padding": "11px"}}><p>优先级</p>
 						<div className="btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
-                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                          <button type="button" className={(todo.priority === CONSTANT.P4 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#ff1493", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P4)}/>
-                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                          <button type="button" className={(todo.priority === CONSTANT.P3 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#ff8c00", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P3)}/>
-                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                          <button type="button" className={(todo.priority === CONSTANT.P2 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#4169e1", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P2)}/>
-						  <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+						  <button type="button" className={(todo.priority === CONSTANT.P1 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "grey", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P1)}/>
                         </div>

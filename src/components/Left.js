@@ -27,13 +27,17 @@ export default class Left extends React.Component {
         this.updatePage = this.updatePage.bind(this);
         this.updateIllegal = this.updateIllegal.bind(this);
         this.getLegalTasks = this.getLegalTasks.bind(this);
+        this.onRef = this.onRef.bind(this);
 
         this.getAllTag(this.state.token);
         // this.getAllTask(this.state.token);
         this.getLegalTasks(this.state.token);
+
+
     }
 
     changeViewType(type){
+        this.click(true);
         this.getAllTask(this.state.token);
         this.setState({
             viewType: type
@@ -130,6 +134,14 @@ export default class Left extends React.Component {
         await this.getAllTask(this.state.token);
     }
 
+    onRef(ref){
+        this.child = ref;
+    }
+
+    click(trueOrFalse) {
+        this.child.click(trueOrFalse);
+    }
+
     render() {
 
         let state = this.state;
@@ -221,6 +233,7 @@ export default class Left extends React.Component {
                     </div>
                     <Middle
                         {...{
+                            onRef: this.onRef,
                             updatePage: this.updatePage,
                             tags: state.todoTags,
                             tasks: tasks,

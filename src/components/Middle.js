@@ -48,6 +48,7 @@ export default class Middle extends React.Component {
         this.onChangeDate = this.onChangeDate.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeContent = this.onChangeContent.bind(this);
+        this.onRef = this.onRef.bind(this);
 
         // this.props.tasks.forEach(task=> {
         //     let date = new Date();
@@ -286,6 +287,7 @@ export default class Middle extends React.Component {
     }
 
     onChangeDisplay(task) {
+        this.click(false);
         this.setState({
             displayTask: task
         })
@@ -333,6 +335,18 @@ export default class Middle extends React.Component {
                 }}
             />
         )
+    }
+
+    componentDidMount(){
+        this.props.onRef(this);
+    }
+
+    onRef(ref){
+        this.child = ref;
+    }
+
+    click(trueOrFalse) {
+        this.child.setDefaultView(trueOrFalse);
     }
 
     render(){
@@ -524,6 +538,7 @@ export default class Middle extends React.Component {
                 </div>
                 <Right
                     {...{
+                        onRef: this.onRef,
                         displayTask: state.displayTask,
                         onChangeContent: this.onChangeContent,
                         onChangeTitle: this.onChangeTitle
