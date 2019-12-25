@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import DatePicker from 'react-datepicker';
 
 export const ACTIVE_NOT_DELETED = 1;  // 没做完  2  auto3  4
 export const DONE_NOT_DELETED = 2;  // 做完了  1  3(auto)?  5
@@ -37,38 +36,3 @@ export function inSenvenDays(date) {
     return false;
 }
 
-// export default class MyDatePicker extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             date: new Date()
-//         };
-//     }
-//
-//
-//     onChange(date) {
-//         this.setState({
-//             date: date
-//         });
-//     };
-//
-//     render() {
-//         return (
-//             <DatePicker
-//                 // onChange={this.onChange}
-//                 // selected={this.state.date}
-//             />
-//         );
-//     }
-// }
-
-// ActiveNotDeleted  // undone
-// DoneNotDeleted  // done
-// ExpiredNotDeleted  // 过期
-// ActiveOrExpiredDeleted  // undone/过期 删除
-// DoneDeleted  // done 删除
-
-// P1  // 未分配
-// P2  // 低
-// P3  // 中
-// P4  // 高

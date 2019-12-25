@@ -223,7 +223,7 @@ export default class Middle extends React.Component {
         // 12/20/2019
         // 2020-02-02 00:00:00
         let temp = date.split('/');
-        date = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 00:00:00';
+        date = temp[2] + '-' + temp[0] + '-' + temp[1] + ' 23:59:59';
 
         let res = await this.modifyTask(token, task['id'], task['title'], task['content'], CONSTANT.ACTIVE_NOT_DELETED,
             task['priority'], task['tag'], date);
