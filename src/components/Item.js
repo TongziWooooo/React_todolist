@@ -33,7 +33,7 @@ export default class Item extends React.Component {
             <li className={todo.state === CONSTANT.DONE_NOT_DELETED?"finished-task":
             ((todo.state === CONSTANT.DONE_DELETED || todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED)?"deleted-task": "task")} 
             onClick={()=>onChangeDisplay(todo)}>
-                <div className={todo.state === CONSTANT.DONE_NOT_DELETED?"glyphicon glyphicon-check checkbox-icon":"glyphicon glyphicon-unchecked checkbox-icon"}
+                <div className={(todo.state === CONSTANT.DONE_NOT_DELETED || todo.state === CONSTANT.DONE_DELETED)?"glyphicon glyphicon-check checkbox-icon":"glyphicon glyphicon-unchecked checkbox-icon"}
                      style={{"padding": "5px", "display": "inline-block"}}
                      onClick={()=>onToggle(todo)}/>
                 <div style={{"display": "inline-block"}}>{todo.title === 'NULL' ? '' : todo.title}</div>
@@ -71,7 +71,7 @@ export default class Item extends React.Component {
 					</span>
 					<div className="ddl-time">{todo.ddl_time === '2020/02/02'?'未设置':todo.ddl_time}</div>
 					<div className="btn-group">
-					  <button type="button" className="btn btn-default dropdown-toggle btn-xs" style={{"border": "none"}}
+					  <button type="button" className="btn btn-default dropdown-toggle btn-xs" style={{"border": "none", "border-radius": "20px"}}
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					    <span className="glyphicon glyphicon-option-horizontal"
                               style={{"height": "20px", "width": "20px", "color": "#696969"}}/>

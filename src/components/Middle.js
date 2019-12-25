@@ -62,6 +62,9 @@ export default class Middle extends React.Component {
     }
 
     async addTask(token, title, content = 'NULL', state = CONSTANT.ACTIVE_NOT_DELETED, priority = CONSTANT.P1) {
+        let ddl_time = new Date();
+        ddl_time = ddl_time.toLocaleDateString();
+        ddl_time = ddl_time.replace(/\//g,"-") + ' 23:59:59';
         try {
             let res = await superagent
                 .post('http://aliyun.nihil.top:10999/api/task/add?SecretKey=kdK4AnNlLm')
@@ -72,7 +75,7 @@ export default class Middle extends React.Component {
                     "state": state,
                     "priority": priority,
                     'tag':'default',
-                    'ddl_time':'2020-02-02 00:00:00'
+                    'ddl_time':ddl_time
                 });
             let json = JSON.parse(res.text);
             return json['data']['id'];

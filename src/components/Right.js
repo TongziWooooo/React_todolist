@@ -11,7 +11,7 @@ export default class Right extends React.Component {
                     <span><h3>点击任务标题查看详情</h3></span>
                 </div>
             ),
-            isDefaultView: false
+            isDefaultView: true
         };
 
         this.setDefaultView = this.setDefaultView.bind(this);
@@ -35,6 +35,7 @@ export default class Right extends React.Component {
         let {onChangeTitle, onChangeContent} = this.props;
         onChangeTitle(task, title);
         onChangeContent(task, content);
+        alert('保存成功！');
     }
 
     render(){
@@ -44,7 +45,7 @@ export default class Right extends React.Component {
 
             this.state.isDefaultView ? this.state.defaultView :
                 (
-                    <div className={"col-md-4" + (task.state === CONSTANT.DONE_DELETED || CONSTANT.ACTIVE_OR_EXPIRED_DELETED ? ' no-click' : '')} style={{"height": "100%"}}>
+                    <div className={"col-md-4" + ((task.state === CONSTANT.DONE_DELETED || task.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED) ? ' no-click' : '')} style={{"height": "100%"}}>
                         <div className="desc-title">
                             <div className="desc-title-text" placeholder="准备做什么？" id='title' contentEditable="true" style={{"margin-top": "20px", "margin-left": "20px"}}>
                                 {task.title === 'NULL' ? '' : task.title}
@@ -55,7 +56,7 @@ export default class Right extends React.Component {
                             {task.content === 'NULL' ? '' : task.content}
                         </div>
                         <div className="divider"/>
-                        <button className="btn btn-large" style={{"margin-top": "14px", "background": "rgba(106,90,205,0.8)", "color": "white"}}
+                        <button className={"btn btn-large"+ ((task.state === CONSTANT.DONE_DELETED || task.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED) ? ' no-click-save-btn' : ' save-btn')}
                                 onClick={()=>{this.inputChangeTitleAndContent(task)}}>保存</button>
                     </div>
                 )
