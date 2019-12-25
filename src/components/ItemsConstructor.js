@@ -33,7 +33,7 @@ export default class Middle extends React.Component {
             )
         });
         return (
-            <div className="task-list-scroll" style={{"height":"100%"}}>
+            <div className="task-list-scroll" style={{"height":"80%"}}>
                 <div className="task-list-content">
                     {items}
                 </div>

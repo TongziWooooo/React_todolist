@@ -16,14 +16,14 @@ html,body{
   height: 6px;
   background-color: rgba(240, 240, 240, 1);
 }
- 
+
 /*定义滚动条轨道 内阴影+圆角*/
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
   border-radius: 10px;
   background-color: rgba(240, 240, 240, .5);
 }
- 
+
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
@@ -52,17 +52,17 @@ html,body{
 		  color: black;
 		  background-color: #e6e6fa;
 		}
-		
+
 		.nav-sidebar > .inactive > a {
 		  color: black;
 		  opacity: 0.8;
 		}
-		
+
 		.nav-sidebar > .inactive > a:hover {
 		  color: black;
 		  background-color: #e6e6fa;
 		}
-		
+
 		.sidebar-inline-icon {
 		  margin-right: 12px;
 		  color: grey;
@@ -102,6 +102,7 @@ html,body{
 .task-list-scroll{
 	height: 100%;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .task-section {

@@ -173,7 +173,7 @@ export default class Item extends React.Component {
 					    <span className="glyphicon glyphicon-option-horizontal"
                               style={{"height": "20px", "width": "20px", "color": "#696969"}}/>
 					  </button>
-					  <ul className="dropdown-menu">
+					  <ul className="dropdown-menu" style={{"position": "absolute", "left": "-200px"}}>
 					    <li style={{"padding": "11px"}}><p>到期日</p><span>
                             {/*<MyDatePicker/>*/}
 						  <div className="input-group date" data-provide="datepicker"
@@ -189,16 +189,20 @@ export default class Item extends React.Component {
 						<li role="separator" className="divider"/>
 					    <li style={{"padding": "11px"}}><p>优先级</p>
 						<div className="btn-group btn-group-sm" role="group" style={{"display": "table-cell"}}>
-                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                          <button type="button" className={(todo.priority === CONSTANT.P4 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#ff1493", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P4)}/>
-                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                          <button type="button" className={(todo.priority === CONSTANT.P3 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#ff8c00", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P3)}/>
-                          <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+                          <button type="button" className={(todo.priority === CONSTANT.P2 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "#4169e1", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P2)}/>
-						  <button type="button" className="btn glyphicon glyphicon-glyphicon glyphicon-fire"
+						  <button type="button" className={(todo.priority === CONSTANT.P1 ?
+                              'active ' : '') + 'btn glyphicon glyphicon-glyphicon glyphicon-fire'}
                                   style={{"color": "grey", "background-color": "white"}}
                                   onClick={()=>onChangePriority(todo, CONSTANT.P1)}/>
                         </div>
