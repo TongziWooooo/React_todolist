@@ -1,0 +1,105 @@
+.main {
+    height: 100%; 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(233, 227, 248, 0.349);
+}
+
+.input-line {
+    border: none;
+    border-bottom: 1px solid #d9dcdd;
+    margin-bottom: 30px;
+    height: 41px;
+}
+
+.input-box {
+  border: none;
+  width: 90%;
+  height: 40px;
+  font-size: 15px;
+  padding: 10 0 0 20px;
+  margin-left: 10px;
+  font-family: 'Segoe UI', Georgia, Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1px;
+  text-indent: 15px;
+}
+
+.input-box:focus {
+    outline: none;
+}
+
+.btn-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.my-btn {
+    background: rgba(117, 103, 199, 0.8);
+    font-size: 17px;
+    font-weight: lighter;
+    color: white;
+    width: 50%;
+    height: 50px;
+    border-radius: 25px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.my-btn:hover {
+    background: rgb(105, 90, 205, 0.9);
+    color: white;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: 50px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+.login-box {
+    width: 400px;
+    height: 330px;
+    padding-top: 20px;
+    margin: 50px;
+    background-color: white;
+    border-top-right-radius:10px;
+    border-top-left-radius:10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    opacity: 0.9;
+}

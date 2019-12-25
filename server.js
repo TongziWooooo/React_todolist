@@ -17,7 +17,6 @@ app.use( webpackDevMiddleware(compiler, {publicPath: '/assets/'}) );
 app.use( webpackHotMiddleware(compiler) );
 
 app.get('/*', (req, res)=> res.sendFile(dfPath.src + '/index.html') )
-
 app.listen(port, (error)=>{
     if(!error){
         console.log('');

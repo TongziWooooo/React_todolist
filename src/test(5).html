@@ -1,0 +1,342 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" rel="stylesheet">
+
+	<style>
+		html,body{
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.divider {
+			border-bottom: 1px solid #d3d3d3;
+		}
+		
+		.left-menu {
+			height: 100%;
+			width: 30%;
+			border: 1px solid blue;
+		}
+		.mid-menu {
+			height: 100%;
+			width: 30%;
+			border: 1px solid purple;
+		}
+		.right-menu {
+			height: 100%;
+			width: 40%;
+			border: 1px solid green;
+		}
+		
+		.nav-sidebar { 
+		  /*margin-right: -20px;  20px padding + 1px border */
+		}
+		.nav-sidebar > li > a {
+		  border-radius: 5px;
+		  padding-right: 20px;
+		  padding-left: 20px;
+		}
+		.nav-sidebar > .active > a,
+		.nav-sidebar > .active > a:hover,
+		.nav-sidebar > .active > a:focus {
+		  color: black;
+		  opacity: 0.8;
+		  background-color: #e6e6fa;
+		}
+		
+		.inline-icon {
+		  margin-right: 5px;
+		}
+		
+		.project-name {
+		  font-size: 22px;
+		  padding-top: 25px;
+		}
+		
+		.tool-bar {
+		  height: 70px;
+		  width: 100%;
+		}
+		
+		.action-btn {
+		  padding: 10px;
+		  margin: 10px;
+		}
+		
+		.action-btn-active-icon {
+		    margin: 5px 10px 5px 5px; 
+		    padding: 2px;
+			color: #6495ed;
+		  }
+		
+		.action-btn-inactive-icon {
+		    margin: 5px 10px 5px 5px; 
+		    padding: 2px;
+			color: gray;
+		  }
+		
+		.show-more {
+		  font-size: 12px;
+		  margin-top: 20px;
+		  color: gray;
+		}
+		
+		.task-section {
+		  margin: 20px;
+		  border-bottom: 1px solid #d3d3d3;
+		}
+		
+		.section-header {
+		  font-size: 12px;
+		  margin: 10px;
+		  cursor: pointer;
+		  color: #9370DB;
+		}
+		
+		.task {
+		  height: 45px;
+		  padding: 9px;
+		  list-style: none;
+		  cursor: pointer;
+		  border-radius: 10px;
+		}
+		
+		.task:hover {
+		  background-color: #e6e6fa;
+		}
+		
+		.task-project-name {
+		  color: #d3d3d3;
+		}
+		
+		.ddl-time {
+		  height: 20px;
+		  font-size: 12px;
+		  color: pink;
+		  display: inline-block;
+		  text-align: center;
+		  margin-left: 3px;
+		}
+		
+		.desc-text {
+		  font-size: 16px;
+		  line-height: 24px;
+          height: 100%; 
+		  width: 100%;
+		  border: none;
+		  padding-top: 10px;
+		  padding-left: 20px;
+		  padding-right: 20px;
+		  overflow-y: auto;
+		}
+		
+		div:focus
+		{
+		  outline: none;
+		}
+		
+		textarea:focus
+		{
+		  outline: none;
+		}
+		
+	</style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+  <div class="container-fluid" id="root" style="height: 100%;">
+	<div class="row" style="height: 100%;">
+	  <div class="col-md-2 sidebar" style="height: 100%; background: rgba(f5,f5,f5,0.9);">
+		<div class="tool-bar">
+		  <h3>🍎  我是用户名</h3>
+		</div>
+		<div class="project-view">
+		  <section>
+		    <div class="smart-view">
+			  <ul class="nav nav-sidebar">
+			    <li class="active"><a href="#"><strong>今日</strong><span class="sr-only">(current)</span></a></li>
+			    <li><a href="#">最近7天</a></li>
+			    <li><a href="#">收集箱</a></li>
+			  </ul>
+		    </div>
+		  </section>
+		  <section>
+		    <ul class="nav nav-sidebar">
+			  <li><a href="#">已完成</a></li>
+			  <li><a href="#">垃圾桶</a></li>
+			</ul>
+		  </section>
+		  <div class="divider"></div>
+		  <section>
+		    <div style="border-bottom: 1px solid #a9a9a9; margin: 20px 40px 10px 40px;"><h5 style="text-align: center; color: #696969;">清单</h5></div>
+		    <ul class="nav nav-sidebar">
+			  <li><a href="#">清单1</a></li>
+			  <li><a href="#">清单2</a></li>
+			</ul>
+		  </section>
+		</div>
+      </div>
+	  <div class="col-md-6" style="height: 100%; border-right:1px solid #d3d3d3; border-left:1px solid #d3d3d3; padding-left: 30px;">
+	    <header class="form-inline tool-bar">
+		  <div class="form-group project-name" id="project-name-bar">
+		  这是一个标题
+		  </div>
+		  <div class="form-group action-bar" style="float: right;">
+			  <div class="action-btn btn-group">
+			    <button type="button" class="btn btn-default dropdown-toggle" style="border: none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon-time" style="color: #6495ed;"></span>
+                </button>
+				<ul class="dropdown-menu">
+                  <li class="active"><a href="#"><span class="action-btn-active-icon glyphicon glyphicon-time"></span><span>按时间</span></a></li>
+                  <li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-list-alt"></span><span>按清单</span></a></li>
+                  <li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-fire"></span><span>按优先级</span></a></li>
+				</ul>
+		      </div>
+		  </div>
+		</header>
+		<div class="add-task" style="height: 70px;">
+		  <div>
+		    <label for="add-task" class="sr-only"></label>
+		    <input id="add-task" type="text" class="form-control" style="width: 90%; height: 40px; border: none; background-color: #f5f5f5; padding: 13px; font-size: 14px;" placeholder="添加任务至所有，回车即可保存"></input>
+		  </div>
+		</div>
+		<div class="task-list-scroll" style="height:100%;">
+		  <div class="task-list-content">
+		    <section class="task-section">
+			  <div class="section-header">
+			    <div>
+				  <div data-toggle="collapse" data-parent="#accordion" href="#opened"><!--这个href要和下面的列表id相同 https://www.runoob.com/bootstrap/bootstrap-collapse-plugin.html-->
+					<span class="inline-icon glyphicon glyphicon-th-list"></span>已过期<span class="badge" style="float: right;">2</span>
+				  </div>
+				</div>
+			  </div>
+			  <ul id="opened" class="collapse in">
+			    <li class="task">
+				  <div class="glyphicon glyphicon-unchecked" style="padding: 5px; display: inline-block;"></div>
+				  <div style="display: inline-block;">原来的搬过来就行了</div>
+				  <span style="float: right; display: inline-block;">
+					<span class="action-btn btn-group" style="margin: 0; padding: 0;">
+					  <button type="button" class="btn btn-default dropdown-toggle btn-xs task-project-name" style="border: none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						程序设计作业<span class="caret" style="margin-left: 3px;">
+					  </button>
+					  <ul class="dropdown-menu">
+						<li class="active"><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-tag"></span><span>快点</span></a></li>
+						<li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-tag"></span><span>做作业</span></a></li>
+						<li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-tag"></span><span>加油</span></a></li>
+				        <li role="separator" class="divider"></li>
+						<li><form class="form-inline" role="form" style="padding: 6px;">
+						    <label for="name" class="sr-only">名称</label>
+                            <input type="text" class="form-control" id="name" placeholder="创建清单" style="width: 100px;">
+							<button type="submit" class="btn btn-default btn-sm" style="border-radius: 7px; margin-left: 5px;"><span class="glyphicon glyphicon-plus"></span></button>
+						</form></li>
+					  </ul>
+					</span>
+					<div class="ddl-time">12月20日</div>
+					<div class="btn-group">
+					  <button type="button" class="btn btn-default dropdown-toggle btn-xs" style="border: none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <span class="glyphicon glyphicon-option-horizontal" style="height:20px; width: 20px; color: #696969;"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+					    <li style="padding: 11px;"><p>到期日</p><span>
+						  <div class="input-group date" data-provide="datepicker" style="padding-left: 10px; padding-right: 10px;">
+                            <input type="text" class="form-control" value="12-20-2019" style="border-radius: 10px;">
+                          </div>
+						</span></li>
+						<li role="separator" class="divider"></li>
+					    <li style="padding: 11px;"><p>优先级</p>
+						<div class="btn-group btn-group-sm" role="group" style="display: table-cell">
+                          <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire" style="color: #ff1493; background-color: white;"></button>
+                          <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire" style="color: #ff8c00; background-color: white;"></button>
+                          <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire" style="color: #4169e1; background-color: white;"></button>
+						  <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire active" style="color: grey; background-color: white;"></button>
+                        </div>
+						</li>
+						<li role="separator" class="divider"></li>
+					    <li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-remove-circle"></span><span>删除</span></a></li>
+					  </ul>
+					</div>
+				  </span>
+				</li>
+				<li class="task">
+				  <div class="glyphicon glyphicon-check" style="padding: 5px; display: inline-block;"></div>
+				  <div style="display: inline-block;">嘿嘿嘿我好聪明</div>
+				  <span style="float: right; display: inline-block;">
+				    <span class="action-btn btn-group" style="margin: 0; padding: 0;">
+					  <button type="button" class="btn btn-default dropdown-toggle btn-xs task-project-name" style="border: none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						快点做完啊<span class="caret" style="margin-left: 3px;">
+					  </button>
+					  <ul class="dropdown-menu">
+						<li class="active"><a href="#"><span class="action-btn-active-icon glyphicon glyphicon-tag"></span><span>快点</span></a></li>
+						<li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-tag"></span><span>做作业</span></a></li>
+						<li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-tag"></span><span>加油</span></a></li>
+				      </ul>
+					</span>
+					<div class="ddl-time">12月20日</div>
+					<div class="btn-group">
+					  <button type="button" class="btn btn-default dropdown-toggle btn-xs" style="border: none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <span class="glyphicon glyphicon-option-horizontal" style="height:20px; width: 20px; color: #696969;"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+					    <li style="padding: 11px;"><p>到期日</p><span>
+						  <div class="input-group date" data-provide="datepicker" style="padding-left: 10px; padding-right: 10px;">
+                            <input type="text" class="form-control" value="12-20-2019" style="border-radius: 10px;">
+                          </div>
+						</span></li>
+						<li role="separator" class="divider"></li>
+					    <li style="padding: 11px;"><p>优先级</p>
+						<div class="btn-group btn-group-sm" role="group" style="display: table-cell">
+                          <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire" style="color: #ff1493; background-color: white;"></button>
+                          <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire" style="color: #ff8c00; background-color: white;"></button>
+                          <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire" style="color: #4169e1; background-color: white;"></button>
+						  <button type="button" class="btn glyphicon glyphicon-glyphicon glyphicon-fire active" style="color: grey; background-color: white;"></button>
+                        </div>
+						</li>
+						<li role="separator" class="divider"></li>
+					    <li><a href="#"><span class="action-btn-inactive-icon glyphicon glyphicon-remove-circle"></span><span>删除</span></a></li>
+					  </ul>
+					</div>
+				  </span>
+				</li>
+			  </ul>
+			  <!--p class="show-more">查看更多</p-->
+			</section>
+			<section class="task-section">
+			  <div class="section-header">
+			    <div>
+				<div data-toggle="collapse" data-parent="#accordion" href="#opened??"><!--这个href要和下面的列表id相同 https://www.runoob.com/bootstrap/bootstrap-collapse-plugin.html-->
+                    <span class="inline-icon glyphicon glyphicon-th-list""></span>接下来7天
+				    <span class="badge" style="float: right;">5</span>
+				</div>
+				</div>
+			  </div>
+			</section>
+		  </div>
+		</div>
+	  </div>
+	  <div class="col-md-4" style="height: 100%;">
+	    <div class="desc-title">
+		  <div contenteditable="true" style="margin-top: 20px; margin-left: 20px;"><h3><strong>这是一个任务标题</strong></h3></div>
+		</div>
+		<div class="desc-content" style="height: 100%;">
+		  <textarea class="desc-text" placeholder="描述">如果我们选择了最能为人类福利而劳动的职业，那么，重担就不能把我们压倒，因为这是为大家而献身；那时我们所感到的就不是可怜的、有限的、自私的乐趣，我们的幸福将属于千百万人，我们的事业将默默地，但是永恒发挥作用地存在下去，而面对我们的骨灰，高尚的人们将洒下热泪。
+较高级复杂的劳动，是这样一种劳动力的表现，这种劳动力比较普通的劳动力需要较高的教育费用，它的生产需要花费较多的劳动时间。因此，具有较高的价值。
+你能否对你的朋友守信不渝，永远做一个无愧于他的人，这就是你的灵魂、性格、心理以至于道德的最好的考验。
+友谊之舟在生活的海洋中行驶是不可能一帆风顺的，有时会碰到乌云和风暴，在这种情况下，友谊应该受到这种或那种考验，在这些乌云和风暴后，那么友谊就会更加巩固，真正的友谊在任何情况下都会放射出新的光芒。
+人的生活离不开友谊，但要得到真正的友谊才是不容易；友谊总需要忠诚去播种，用热情去灌溉，用原则去培养，用谅解去护理。
+如果斗争是在极顺利的成功机会的条件下才着手进行，那么创造世界历史未免就太容易了。</textarea>
+		</div>
+	  </div>
+	</div>
+  </div>
+  </body>
+</html>
