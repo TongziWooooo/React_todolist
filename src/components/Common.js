@@ -18,8 +18,23 @@ export function timeToDay(time) {
 }
 
 export function dateToPicker(time) {
+    if (time === '2020/02/02') {
+        let today = new Date();
+        time = today.toLocaleDateString();
+    }
     let temp = time.split('/');
     return temp[1] + '/' + temp[2] + '/' + temp[0]
+}
+
+export function inSenvenDays(date) {
+    let today = new Date();
+    for (let i=0; i<7; i++) {
+        if (today.toLocaleDateString() === date) {
+            return true;
+        }
+        today.setDate(today.getDate() + 1);
+    }
+    return false;
 }
 
 // export default class MyDatePicker extends Component {

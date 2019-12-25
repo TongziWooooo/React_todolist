@@ -62,6 +62,8 @@ export default class Passport {
                     let code = json['error_code'];
                     if (code === 0){
                         that.isLogin = true;
+                        that.username = username;
+                        that.token = json['data']['token'];
                         alert('注册成功！');
                         callback();
                     } else {

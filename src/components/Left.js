@@ -4,6 +4,7 @@ import * as CONSTANT from './Common';
 import {timeToDay} from './Common'
 
 import 'babel-polyfill';
+import {inSenvenDays} from "./Common";
 
 require('style/index.css');
 
@@ -108,7 +109,7 @@ export default class Left extends React.Component {
                 todo.done_time = timeToDay(item['done_time']);
                 todo.ddl_time = timeToDay(item['ddl_time']);
                 return todo
-            });
+            }).reverse();
             this.setState({
                 todosData: items
             });
@@ -153,15 +154,13 @@ export default class Left extends React.Component {
                     let date = new Date();
                     let today = date.toLocaleDateString();
                     return today === task['ddl_time'] &&
-                        (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED)
+                        (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED || task['state'] === CONSTANT.DONE_NOT_DELETED)
                 });
                 break;
             case 'seven':
                 tasks = state.todosData.filter(task=> {
-                    let date = new Date();
-                    let today = date.toLocaleDateString();
-                    return today === task['ddl_time'] &&
-                        (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED)
+                    return inSenvenDays(task['ddl_time']) &&
+                        (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED || task['state'] === CONSTANT.DONE_NOT_DELETED)
                 });
                 break;
             case 'done':
@@ -176,13 +175,13 @@ export default class Left extends React.Component {
                 break;
             case 'all':
                 tasks = state.todosData.filter(task=> {
-                    return task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED
+                    return task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED || task['state'] === CONSTANT.DONE_NOT_DELETED
                 });
                 break;
             default:
                 tasks = state.todosData.filter(task=> {
                     return task['tag'] === state.viewType &&
-                        (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED)
+                        (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED || task['state'] === CONSTANT.DONE_NOT_DELETED)
                 })
         }
 
