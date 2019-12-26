@@ -166,6 +166,7 @@ html,body{
 
 .task-project-name {
 	color: #d3d3d3;
+	margin-right: 2px;
 }
 
 .ddl-time {
@@ -229,7 +230,8 @@ textarea:focus
 }
 
 .save-btn {
-	margin-top: 14px;
+	height: 4.5%;
+	margin-top: 2.5%;
 	background: rgba(106,90,205,0.8);
 	color: white;
 }

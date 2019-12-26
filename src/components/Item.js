@@ -71,10 +71,10 @@ export default class Item extends React.Component {
 					</span>
 					<div className="ddl-time">{todo.ddl_time === '2020/02/02'?'未设置':todo.ddl_time}</div>
 					<div className="btn-group">
-					  <button type="button" className="btn btn-default dropdown-toggle btn-xs" style={{"border": "none", "border-radius": "20px"}}
+					  <button type="button" className="btn btn-default dropdown-toggle btn-xs" style={{"border": "none", "border-radius": "15px", "margin-left": "5px"}}
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					    <span className="glyphicon glyphicon-option-horizontal"
-                              style={{"height": "20px", "width": "20px", "color": "#696969"}}/>
+                              style={{"height": "14.4px", "width": "12x", "margin-right": "1.5px", "color": "#696969"}}/>
 					  </button>
 					  <ul className="dropdown-menu" style={{"position": "absolute", "left": "-200px"}}>
 					    <li className={todo.state === CONSTANT.DONE_DELETED || todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED? " no-click" : ""} style={{"padding": "11px"}}><p>到期日</p>

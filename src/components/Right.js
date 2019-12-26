@@ -56,7 +56,7 @@ export default class Right extends React.Component {
                             {task.content === 'NULL' ? '' : task.content}
                         </div>
                         <div className="divider"/>
-                        <button className={"btn btn-large"+ ((task.state === CONSTANT.DONE_DELETED || task.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED) ? ' no-click-save-btn' : ' save-btn')}
+                        <button className={"btn"+ ((task.state === CONSTANT.DONE_DELETED || task.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED) ? ' no-click-save-btn' : ' save-btn')}
                                 onClick={()=>{this.inputChangeTitleAndContent(task)}}>保存</button>
                     </div>
                 )

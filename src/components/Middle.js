@@ -105,13 +105,17 @@ export default class Middle extends React.Component {
 
         let task = {};
 
+        let ddl_time = new Date();
+        ddl_time = ddl_time.toLocaleDateString();
+        ddl_time = ddl_time.replace(/\//g,"-") + ' 23:59:59';
+
         task.id = id;
         task.title = title;
         task.content = 'NULL';
         task.state = CONSTANT.ACTIVE_NOT_DELETED;
         task.priority = CONSTANT.P1;
         task.done_time = '0000-00-00 00:00:00';
-        task.ddl_time = '2020-02-02 00:00:00';
+        task.ddl_time = ddl_time;
 
         this.setState({
             inputVal: '',
@@ -124,6 +128,8 @@ export default class Middle extends React.Component {
     }
 
     async modifyTask(token, id, title, content, state, priority, tag, ddl_time) {
+        ddl_time = ddl_time.split('/');
+        ddl_time = ddl_time[0] + '-' + ddl_time[1] + '-' + ddl_time[2] + ' 23:59:59';
         try {
             let res = await superagent
                 .post('http://aliyun.nihil.top:10999/api/task/modify?SecretKey=kdK4AnNlLm')
@@ -137,6 +143,15 @@ export default class Middle extends React.Component {
                     'tag': tag,
                     'ddl_time': ddl_time
                 });
+            this.onChangeDisplay({
+                id: id,
+                title: title,
+                content: content,
+                state: state,
+                priority: priority,
+                tag: tag,
+                ddl_time: ddl_time
+            });
             return res;
         } catch(err) {
             alert(err);
@@ -230,7 +245,6 @@ export default class Middle extends React.Component {
             default:
                 state = task['state'];
         }
-
         let res = await this.modifyTask(token, task['id'], task['title'], task['content'], state,
             task['priority'], task['tag'], task['ddl_time']);
 
