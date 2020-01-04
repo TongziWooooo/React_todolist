@@ -156,7 +156,8 @@ export default class Left extends React.Component {
             case 'today':
                 tasks = state.todosData.filter(task=> {
                     let date = new Date();
-                    let today = date.toLocaleDateString();
+                    date.setTime(date.getTime());
+                    let today = date.getFullYear()+"/" + (date.getMonth() < 9 ? ('0' + (date.getMonth()+1)) : (date.getMonth() + 1)) + "/" + (date.getDate() < 10 ? ('0' + date.getDate()) : date.getDate());
                     return today === task['ddl_time'] &&
                         (task['state'] === CONSTANT.EXPIRED_NOT_DELETED || task['state'] === CONSTANT.ACTIVE_NOT_DELETED || task['state'] === CONSTANT.DONE_NOT_DELETED)
                 });

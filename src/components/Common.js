@@ -12,6 +12,12 @@ export const P2 = 2;
 export const P3 = 3;
 export const P4 = 4;
 
+export const dateDict = {
+    '1':'01',
+    '2':'02',
+
+};
+
 export function timeToDay(time) {
     return time.replace(/-/g,"/").split(" ")[0]
 }
@@ -27,8 +33,10 @@ export function dateToPicker(time) {
 
 export function inSenvenDays(date) {
     let today = new Date();
+    today.setTime(today.getTime());
     for (let i=0; i<7; i++) {
-        if (today.toLocaleDateString() === date) {
+        let res = today.getFullYear()+"/" + (today.getMonth() < 9 ? ('0' + (today.getMonth()+1)) : (today.getMonth() + 1)) + "/" + (today.getDate() < 10 ? ('0' + today.getDate()) : today.getDate());
+        if (res === date) {
             return true;
         }
         today.setDate(today.getDate() + 1);
