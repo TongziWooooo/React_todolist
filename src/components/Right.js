@@ -35,7 +35,6 @@ export default class Right extends React.Component {
         let {onChangeTitle, onChangeContent} = this.props;
         await onChangeTitle(task, title);
         await onChangeContent(task, content);
-        alert(content);
         alert('保存成功！');
     }
 
