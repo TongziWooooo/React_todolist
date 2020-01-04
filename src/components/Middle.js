@@ -50,6 +50,7 @@ export default class Middle extends React.Component {
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeContent = this.onChangeContent.bind(this);
         this.onRef = this.onRef.bind(this);
+        this.onChangeTitleAndContent = this.onChangeTitleAndContent.bind(this);
 
         // this.props.tasks.forEach(task=> {
         //     let date = new Date();
@@ -305,8 +306,9 @@ export default class Middle extends React.Component {
 
         if (res) {
             let {updatePage} = this.props;
-            await updatePage();
+
             // await this.onChangeDisplay(task);
+            await updatePage();
         }
     }
 
@@ -320,8 +322,26 @@ export default class Middle extends React.Component {
 
         if (res) {
             let {updatePage} = this.props;
-            await updatePage();
+
             // await this.onChangeDisplay(task);
+            await updatePage();
+        }
+    }
+
+    async onChangeTitleAndContent(task, title, content) {
+        let {token} = this.state;
+
+        task['title'] = title === '' ? 'NULL' : title;
+        task['content'] = content === '' ? 'NULL' : content;
+
+        let res = await this.modifyTask(token, task['id'], task['title'], task['content'], task['state'],
+            task['priority'], task['tag'], task['ddl_time']);
+
+        if (res) {
+            let {updatePage} = this.props;
+
+            // await this.onChangeDisplay(task);
+            await updatePage();
         }
     }
 
@@ -434,22 +454,39 @@ export default class Middle extends React.Component {
             default:
                 switch(state.sortType) {
                     case 'tag':
-                        itemBox = this.props.tags.map(tag=> {
-                            let key = tag;
-                            let value = tasks.filter(task=>{
-                                return task['tag'] === tag
-                            }).filter(task=> {
-                                return task['state'] !== CONSTANT.DONE_NOT_DELETED
-                            }).map(task=> {
-                                return (
-                                    this.makeItem(task)
-                                )
+                        if (this.props.viewType !== 'all' && this.props.viewType !== 'today' && this.props.viewType !== 'seven' &&
+                            this.props.viewType !== 'done' && this.props.viewType !== 'deleted') {
+                            itemBox = [
+                                {
+                                    key: this.props.viewType,
+                                    value: tasks.filter(task => {
+                                        return task.tag === this.props.viewType
+                                    }).map(task => {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                }
+                            ];
+                        } else {
+                            itemBox = this.props.tags.map(tag=> {
+                                let key = tag;
+                                let value = tasks.filter(task=>{
+                                    return task['tag'] === tag
+                                }).filter(task=> {
+                                    return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                }).map(task=> {
+                                    return (
+                                        this.makeItem(task)
+                                    )
+                                });
+                                return {
+                                    key: key,
+                                    value: value
+                                }
                             });
-                            return {
-                                key: key,
-                                value: value
-                            }
-                        });
+                        }
+
                         itemBox.push({
                             key: '已完成',
                             value: (
@@ -673,8 +710,7 @@ export default class Middle extends React.Component {
                     {...{
                         onRef: this.onRef,
                         displayTask: state.displayTask,
-                        onChangeContent: this.onChangeContent,
-                        onChangeTitle: this.onChangeTitle
+                        onChangeTitleAndContent: this.onChangeTitleAndContent
                     }}
                 />
             </div>

@@ -32,9 +32,8 @@ export default class Right extends React.Component {
         title = title === null ? 'NULL' : title.innerText;
         let content = document.getElementById('content');
         content = content === null ? 'NULL' : content.innerText;
-        let {onChangeTitle, onChangeContent} = this.props;
-        onChangeTitle(task, title);
-        onChangeContent(task, content);
+        let {onChangeTitleAndContent} = this.props;
+        onChangeTitleAndContent(task, title, content);
         alert('保存成功！');
     }
 

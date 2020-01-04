@@ -41,7 +41,7 @@ export default class Item extends React.Component {
 					<span className="action-btn btn-group" style={{"margin": "0", "padding": "0"}}>
                       <button type="button" className={"btn btn-default dropdown-toggle btn-xs task-project-name" + 
                       ((todo.state === CONSTANT.DONE_DELETED || todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED)? " no-click" : "")}
-                              style={{"border": "none"}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              style={{"border": "none", 'color': '#d3d3d3'}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {todo.tag === 'default' ? '未设置' : todo.tag}<span className="caret" style={{"margin-left": "3px"}}/>
                       </button>
                       <ul className="dropdown-menu" style={{"position": "absolute", "left": "-100px"}}>
@@ -69,7 +69,9 @@ export default class Item extends React.Component {
                             </form></li>
                       </ul>
 					</span>
-					<div className="ddl-time">{todo.ddl_time === '2020/02/02'?'未设置':todo.ddl_time}</div>
+					<div className="ddl-time" style={{'color': todo.state === CONSTANT.EXPIRED_NOT_DELETED ? 'pink' :
+                            (todo.state === CONSTANT.DONE_NOT_DELETED || todo.state === CONSTANT.ACTIVE_OR_EXPIRED_DELETED
+                                || todo.state === CONSTANT.DONE_DELETED ? '#d3d3d3':'grey')}}>{todo.ddl_time === '2020/02/02'?'未设置':todo.ddl_time}</div>
 					<div className="btn-group">
 					  <button type="button" className="btn btn-default dropdown-toggle btn-xs" style={{"border": "none", "border-radius": "15px", "margin-left": "5px"}}
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
