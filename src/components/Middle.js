@@ -434,22 +434,39 @@ export default class Middle extends React.Component {
             default:
                 switch(state.sortType) {
                     case 'tag':
-                        itemBox = this.props.tags.map(tag=> {
-                            let key = tag;
-                            let value = tasks.filter(task=>{
-                                return task['tag'] === tag
-                            }).filter(task=> {
-                                return task['state'] !== CONSTANT.DONE_NOT_DELETED
-                            }).map(task=> {
-                                return (
-                                    this.makeItem(task)
-                                )
+                        if (this.props.viewType !== 'all' && this.props.viewType !== 'today' && this.props.viewType !== 'seven' &&
+                            this.props.viewType !== 'done' && this.props.viewType !== 'deleted') {
+                            itemBox = [
+                                {
+                                    key: this.props.viewType,
+                                    value: tasks.filter(task => {
+                                        return task.tag === this.props.viewType
+                                    }).map(task => {
+                                        return (
+                                            this.makeItem(task)
+                                        )
+                                    })
+                                }
+                            ];
+                        } else {
+                            itemBox = this.props.tags.map(tag=> {
+                                let key = tag;
+                                let value = tasks.filter(task=>{
+                                    return task['tag'] === tag
+                                }).filter(task=> {
+                                    return task['state'] !== CONSTANT.DONE_NOT_DELETED
+                                }).map(task=> {
+                                    return (
+                                        this.makeItem(task)
+                                    )
+                                });
+                                return {
+                                    key: key,
+                                    value: value
+                                }
                             });
-                            return {
-                                key: key,
-                                value: value
-                            }
-                        });
+                        }
+
                         itemBox.push({
                             key: '已完成',
                             value: (

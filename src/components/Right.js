@@ -27,14 +27,15 @@ export default class Right extends React.Component {
         })
     }
 
-    inputChangeTitleAndContent(task) {
+    async inputChangeTitleAndContent(task) {
         let title = document.getElementById('title');
         title = title === null ? 'NULL' : title.innerText;
         let content = document.getElementById('content');
         content = content === null ? 'NULL' : content.innerText;
         let {onChangeTitle, onChangeContent} = this.props;
-        onChangeTitle(task, title);
-        onChangeContent(task, content);
+        await onChangeTitle(task, title);
+        await onChangeContent(task, content);
+        alert(content);
         alert('保存成功！');
     }
 

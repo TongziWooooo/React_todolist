@@ -10,6 +10,10 @@ require('style/index.css');
 
 var superagent = require('superagent');
 
+function sortDownDate(a, b) {
+    return Date.parse(a.ddl_time) - Date.parse(b.ddl_time);
+}
+
 export default class Left extends React.Component {
     constructor(props) {
         super(props);
@@ -92,7 +96,7 @@ export default class Left extends React.Component {
     async getAllTask(token) {
         try {
             let res = await superagent
-                .get('http://aliyun.nihil.top:10999/api/task/list?SecretKey=kdK4AnNlLm&rn=100')
+                .get('http://aliyun.nihil.top:10999/api/task/list?SecretKey=kdK4AnNlLm&o=asc&op=ddl_time&rn=100')
                 .set('token', token);
 
             let json = JSON.parse(res.text);
@@ -109,7 +113,7 @@ export default class Left extends React.Component {
                 todo.done_time = timeToDay(item['done_time']);
                 todo.ddl_time = timeToDay(item['ddl_time']);
                 return todo
-            }).reverse();
+            });
             this.setState({
                 todosData: items
             });
@@ -237,7 +241,7 @@ export default class Left extends React.Component {
                             tags: state.todoTags,
                             tasks: tasks,
                             token: state.token,
-                            viewType: state.viewType,
+                            viewType: state.viewType
                         }}
                     />
                 </div>
